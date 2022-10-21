@@ -22,19 +22,22 @@ const CheckOutView = (props) => {
         let order = {
             products: [],
             total: props.route.params.total,
-            user: ''
+            user: '',
+            status:0,
         };
         // console.log(cartItems)
         let tempUser = { ...user }
         tempUser = {
             ...tempUser,
-            user: { isAdmin: tempUser.isAdmin, __v: 0, _id: tempUser._id, address: '123', phone: 123, name: '123', email: '123' }
+            user: { isAdmin: tempUser.isAdmin, __v: 0, _id: tempUser._id, address: '123', phone: 123, name: '123', email: '123' },
+
         }
         for (let i = 0; i < cartItems.length; i++) {
             const element = cartItems[i];
             order.products.push({
                 product: element.product._id,
-                quantity: element.quantity
+                quantity: element.quantity,
+
             })
             // console.log(element)
 

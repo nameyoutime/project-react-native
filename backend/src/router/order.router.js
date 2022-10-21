@@ -47,4 +47,17 @@ router.get('/:id', async (req, res) => {
     }
 })
 
+// change status of order
+router.put('/:id', async (req, res) => {
+    let { id } = req.params;
+    let { status } = req.body;
+    try {
+        let data = await OrderDB.findOneAndUpdate({ _id: id }, { status: status }, { new: true });
+        res.send({ data: data })
+    } catch (error) {
+        res.send({ error: error })
+    }
+})
+
+
 module.exports = router;
