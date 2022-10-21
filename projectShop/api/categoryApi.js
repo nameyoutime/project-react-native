@@ -1,6 +1,7 @@
 // import axiosClient from "./axiosClient";
 import axios from 'axios';
-const mainUrl = 'http://192.168.102.4:8080/api/category';
+import config from '../config';
+const mainUrl = `http://${config.HOST}:${config.PORT}/api/category`;
 
 const categoryApi = {
     getAll: (params) => {
