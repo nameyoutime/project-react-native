@@ -2,7 +2,7 @@ import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginView from './LoginView';
 import RegisterView from './RegisterView';
-import HomeLayoutView from './HomeLayoutView';
+import HomeLayoutView from '../Main/HomeLayoutView';
 import LoadingScreenView from './LoadingScreenView';
 
 const Stack = createStackNavigator();

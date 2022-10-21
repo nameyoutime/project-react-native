@@ -5,12 +5,26 @@ const server = express();
 server.use(cors());
 server.use(bodyParser.json());
 // router
-const image = require('./router/image.router');
+// const user = require('./router/user.router');
+const user = require('./router/user.router');
+const category = require('./router/category.router');
+const product = require('./router/product.router');
+const order = require('./router/order.router');
+
+
+const test = require('./router/test.router');
 // const attendance = require('./router/attendance.router');
 // const teacher = require('./router/teacher.router');
 // const classes = require('./router/class.router');
+server.use("/api/test", test);
 
-server.use("/api/image", image);
+
+server.use("/api/user", user);
+server.use("/api/category", category);
+server.use("/api/product", product);
+server.use("/api/order", order);
+
+
 // server.use("/api/attendance", attendance);
 // server.use("/api/teacher", teacher);
 // server.use("/api/class", classes);

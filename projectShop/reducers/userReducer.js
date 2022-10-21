@@ -1,4 +1,4 @@
-import { GET_ALL_USER,CREATE_USER, DELETE_USER, UPDATE_USER, VIEWALL_USER, } from '../actions/userActions.js';
+import { SET_CURRENT_USER, GET_ALL_USER, CREATE_USER, DELETE_USER, UPDATE_USER, VIEWALL_USER, } from '../actions/userActions.js';
 
 
 const initialState = {
@@ -9,6 +9,11 @@ const initialState = {
 };
 const userReducer = (state = initialState, action) => {
     switch (action.type) {
+        case SET_CURRENT_USER:
+            return {
+                ...state,
+                currentUser: action.payload
+            }
         case GET_ALL_USER:
             return {
                 ...state,

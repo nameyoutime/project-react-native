@@ -1,10 +1,13 @@
 import { createStore, combineReducers } from 'redux';
-import TagReducer from '../reducers/tagReducer.js';
+import CateReducer from '../reducers/cateReducer.js';
 import UserReducer from '../reducers/userReducer.js';
+import ProductReducer from '../reducers/productReducer.js';
+
 
 const rootReducer = combineReducers({
-    tag: TagReducer,
-    user: UserReducer
+    user: UserReducer,
+    cate: CateReducer,
+    product: ProductReducer,
 });
 
 export const Store = createStore(rootReducer);

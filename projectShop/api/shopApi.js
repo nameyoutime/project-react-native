@@ -1,4 +1,5 @@
 import axiosClient from "./axiosClient";
+import axios from 'axios';
 
 const productApi = {
 
@@ -6,9 +7,12 @@ const productApi = {
     //     const url = '/todos';
     //     return axiosClient.get(url, { params });
     // },
-    test: ()  => {
+
+    test: async (params)  => {
         const url = '/test';
-        return axiosClient.get(url);
+        // console.log(axiosClient.get(url))
+        // let re =await axios.get('http://192.168.102.4:8080/api/test')
+        return axiosClient.get(url, { params });
     }
 
 

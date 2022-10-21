@@ -3,6 +3,8 @@ export const UPDATE_USER = 'UPDATE_USER';
 export const DELETE_USER = 'DELETE_USER';
 export const VIEWALL_USER = 'VIEWALL_USER';
 export const GET_ALL_USER = 'GET_ALL_USER';
+export const SET_CURRENT_USER = 'SET_CURRENT_USER';
+
 
 export const getAllUser = (users) => {
     return {
@@ -10,6 +12,13 @@ export const getAllUser = (users) => {
         payload: users
     };
 }
+export const setCurrentUser = (user) => {
+    return {
+        type: SET_CURRENT_USER,
+        payload: user
+    };
+}
+
 
 
 export const createUser = (user) => {

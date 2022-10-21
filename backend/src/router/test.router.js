@@ -11,6 +11,7 @@ router.get("/", async (req, res) => {
             { id: 3, name: 'Bao' },
 
         ];
+        console.log(data);
         // let data = await AttendanceDB.find();
         res.send({ data: data });
     } catch (error) {

@@ -1,9 +1,9 @@
 import axios from 'axios';
 import queryString from 'query-string';
 // import { API_KEY } from '@env'
-const API_KEY = 'http://192.168.102.4:8080/api'
+// const API_KEY = 
 const axiosClient = axios.create({
-    baseURL: API_KEY,
+    baseURL: 'http://192.168.102.4:8080/api',
     headers: {
         'content-type': 'application/json',
     },
