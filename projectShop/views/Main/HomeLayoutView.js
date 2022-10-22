@@ -15,7 +15,7 @@ const HomeLayoutView = (props) => {
     }, [])
 
     return (
-        <Tab.Navigator initialRouteName='Profile' >
+        <Tab.Navigator initialRouteName='Shop' >
             <Tab.Screen name="Profile" component={ProfileLayoutView} options={
 
                 {

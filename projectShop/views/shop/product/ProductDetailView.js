@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Button } from 'react-native'
+import { StyleSheet, Text, View, Button, ScrollView, Image, Dimensions } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { useIsFocused } from '@react-navigation/native';
 import { Store } from '../../../store/store';
@@ -7,8 +7,11 @@ import { useDispatch } from 'react-redux';
 import { deleteProduct, setAllProduct } from '../../../actions/productAction';
 import { firebase } from '../../../firebase';
 import asyncStorage from '../../../api/asynStorage';
+import style from '../../../styles/mainStyle';
+// import style from '../../../styles/mainStyle';
 
-
+const { width } = Dimensions.get('window');
+const height = width * 1;
 const ProductDetailView = (props) => {
     const focus = useIsFocused();
     const dispatch = useDispatch();
@@ -16,6 +19,7 @@ const ProductDetailView = (props) => {
     const [profile, setProfile] = useState(Store.getState().user.currentUser.user)
     const [product, setProduct] = useState(props.route.params.product);
     const [appCategories, setAppCategories] = useState(Store.getState().cate.categories);
+    const [active, setActive] = useState(0);
     useEffect(() => {
         if (focus) {
             const state = Store.getState();
@@ -25,7 +29,8 @@ const ProductDetailView = (props) => {
             // find product by id in arrays
             let product = products.find((item) => item._id === props.route.params.product._id);
             if (product) setProduct(product);
-            console.log('ProductDetailView');
+
+            // console.log(product);
         }
     }, [focus])
 
@@ -50,10 +55,18 @@ const ProductDetailView = (props) => {
     }
     const handleAdmin = () => {
         return (
-            <>
-                <Button title='Update' onPress={() => props.navigation.navigate('Update product', { product: product, categories: appCategories })} />
-                <Button title='Delete' onPress={handleDelete} />
-            </>
+            <View style={{ marginVertical: 10 }}>
+
+                <Text style={[style.label, { textAlign: 'center' }]}>Admin function</Text>
+                <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+                    <Button title='Update' onPress={() => props.navigation.navigate('Update product', { product: product, categories: appCategories })} />
+                    <Button color={'red'} title='Delete' onPress={handleDelete} />
+                </View>
+            </View>
+            // <View>
+            //     <Button title='Update' onPress={() => props.navigation.navigate('Update product', { product: product, categories: appCategories })} />
+            //     <Button title='Delete' onPress={handleDelete} />
+            // </View>
 
         )
     }
@@ -68,12 +81,57 @@ const ProductDetailView = (props) => {
         }
         await asyncStorage.set('cart', cart);
     }
+    const change = ({ nativeEvent }) => {
+        const slide = Math.ceil(nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width);
+        if (slide !== active) {
+            setActive(slide);
+        }
+    }
+
     return (
-        <View>
+        <ScrollView>
+            <View style={{ width, height }}>
+
+                <ScrollView scrollEventThrottle={5} onScroll={change} showsHorizontalScrollIndicator={false} pagingEnabled horizontal style={{ width, height }}>
+                    {
+                        product.images.map((item, index) => {
+                            return (
+                                <Image key={index} style={{ width, height, resizeMode: 'cover' }} source={{ uri: item.url }} />
+                            )
+                        })
+                    }
+                </ScrollView>
+                <View style={{ flexDirection: 'row', position: 'absolute', bottom: 0, alignSelf: 'center' }}>
+                    {product.images.map((item, index) => {
+                        return (
+                            <Text key={index} style={index == active ? { color: '#fff', margin: 3 } : { color: '#888', margin: 3 }} >
+                                ⬤
+                            </Text>
+                        )
+                    })}
+                </View>
+
+
+
+            </View >
+            <View style={{ margin: 5 }}>
+
+                <Text style={style.label}>Title: {product.title}</Text>
+                <Text style={style.label}>Description: {product.description}</Text>
+                <Text style={style.label}>Price: {product.price}</Text>
+                <View style={{ display: 'flex', flexDirection: 'row' }}>
+                    <Text style={{ fontSize: 12, fontWeight: 'bold' }}>Category: </Text>
+                    {product.categories.map((cate, index) => {
+                        return (
+                            <Text key={index}> {cate.title}</Text>
+                        )
+                    })}
+                </View>
+                <Button title='Buy' onPress={() => handleBuy()} />
+            </View>
             {profile.isAdmin ? (handleAdmin()) : null}
-            <Text>{product._id}</Text>
-            <Button title='Buy' onPress={() => handleBuy()} />
-        </View>
+        </ScrollView>
+
     )
 }
 

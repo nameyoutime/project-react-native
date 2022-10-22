@@ -1,13 +1,13 @@
 import { View, Text, Button, TextInput } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import style from '../../styles/mainStyle.js'
+import styles from '../../styles/mainStyle.js'
 import { useDispatch } from 'react-redux'
 import asyncStorage from '../../api/asynStorage.js';
 import userApi from '../../api/userApi.js'
 import { useIsFocused } from "@react-navigation/native";
 import { setCurrentUser } from '../../actions/userActions';
 import { useNavigation, useRoute } from '@react-navigation/native';
-
+// import styles from '../../styles/styles.js';
 
 const ProfileView = (props) => {
     const Route = useRoute();
@@ -81,16 +81,23 @@ const ProfileView = (props) => {
     const renderUser = () => {
         return (
             <>
-                <Button title='Order History' onPress={() => { props.navigation.navigate('Order history', { userId: user._id,isAdmin:profile.isAdmin }) }} />
-                {/* <Button title='Update Profile' onPress={() => { props.navigation.navigate('Profile view') }} /> */}
-                <View>
-                    <Text>userName : {user.userName}</Text>
-                    <Text>ProfileView</Text>
-                    <TextInput placeholder='name' defaultValue={profile.name} onChangeText={(e) => setProfile({ ...profile, name: e })} />
-                    <TextInput placeholder='address' defaultValue={profile.address} onChangeText={(e) => setProfile({ ...profile, address: e })} />
-                    <TextInput placeholder='email' defaultValue={profile.email} onChangeText={(e) => setProfile({ ...profile, email: e })} />
-                    <TextInput keyboardType='numeric' placeholder='phone' defaultValue={profile.phone} onChangeText={(e) => setProfile({ ...profile, phone: e })} />
-                    <Button title="update" onPress={handdleUpdate} />
+                <Button title='Order History' onPress={() => { props.navigation.navigate('Order history', { userId: user._id, isAdmin: profile.isAdmin }) }} />
+                <View >
+                    <Text style={styles.label}>User Name : {user.userName}</Text>
+                    <Text style={styles.label}>Name</Text>
+                    <TextInput style={styles.texInput} placeholder='name' defaultValue={profile.name} onChangeText={(e) => setProfile({ ...profile, name: e })} />
+                    <Text style={styles.label}>Address</Text>
+                    <TextInput style={styles.texInput} placeholder='address' defaultValue={profile.address} onChangeText={(e) => setProfile({ ...profile, address: e })} />
+                    <Text style={styles.label}>Email</Text>
+
+                    <TextInput style={styles.texInput} placeholder='email' defaultValue={profile.email} onChangeText={(e) => setProfile({ ...profile, email: e })} />
+                    <Text style={styles.label}>Phone</Text>
+
+                    <TextInput style={styles.texInput} keyboardType='numeric' placeholder='phone' defaultValue={profile.phone} onChangeText={(e) => setProfile({ ...profile, phone: e })} />
+                    <View style={{marginVertical:10}}>
+                        <Button title="update" onPress={handdleUpdate} />
+
+                    </View>
                 </View>
 
             </>
@@ -118,12 +125,10 @@ const ProfileView = (props) => {
         // console.log(loading)
         return (
             <>
-                {/* {loading ? <Text>Loading...</Text> : renderUser()} */}
-                <View style={style.container}>
+                <View style={styles.container}>
                     {user != null ? (renderUser()) : (<Text>Not found</Text>)}
                     <Button title="Logout" onPress={handdleLogout} />
-                    {/* <View>{user != null ? renderAdmin() : (<Text>Not found</Text>)}</View> */}
-                    <View>{(user != null && profile.isAdmin) ? (renderAdmin()) : (<Text>not admin</Text>)}</View>
+                    {/* <View>{(user != null && profile.isAdmin) ? (renderAdmin()) : (<Text>not admin</Text>)}</View> */}
 
                 </View>
 

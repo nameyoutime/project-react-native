@@ -38,7 +38,7 @@ router.post('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     // get order by id
     let { id } = req.params;
-    console.log(id);
+    // console.log(id);
     try {
         let data = await OrderDB.find({ user: id }).populate('products.product').populate('user');
         res.send({ data: data })

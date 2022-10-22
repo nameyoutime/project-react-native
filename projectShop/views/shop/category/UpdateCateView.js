@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { updateCate } from '../../../actions/categoryAction';
 import cateApi from '../../../api/categoryApi';
+import styles from '../../../styles/mainStyle';
 const UpdateCateView = (props) => {
     const dispatch = useDispatch();
     const [category, setCategory] = useState(props.route.params.cate);
@@ -18,10 +19,10 @@ const UpdateCateView = (props) => {
     }
 
     return (
-        <View>
-            <TextInput placeholder='Title' value={category.title} onChangeText={(text) => setCategory({ ...category, title: text })} />
-            <TextInput placeholder='Description' value={category.description} onChangeText={(text) => setCategory({ ...category, description: text })} />
-            <Button onPress={haddleUpdateCate} />
+        <View style={styles.container}>
+            <TextInput style={[styles.texInput,{marginVertical:5}]} placeholder='Title' value={category.title} onChangeText={(text) => setCategory({ ...category, title: text })} />
+            <TextInput style={[styles.texInput,{marginVertical:5}]} placeholder='Description' value={category.description} onChangeText={(text) => setCategory({ ...category, description: text })} />
+            <Button title='Update' onPress={haddleUpdateCate} />
         </View>
     )
 }

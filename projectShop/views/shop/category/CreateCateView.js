@@ -1,10 +1,11 @@
-import { View, Text, TextInput, Button } from 'react-native'
+import { View, Text, TextInput, Button, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useIsFocused } from '@react-navigation/native'
 import { createNewCate, deleteCate, setAllCate } from '../../../actions/categoryAction'
 import categoryApi from '../../../api/categoryApi'
 import { useSelector } from 'react-redux'
+import styles from '../../../styles/mainStyle'
 
 const CreateCateView = (props) => {
     const [gotData, setGotData] = useState(false);
@@ -53,26 +54,31 @@ const CreateCateView = (props) => {
 
 
     return (
-        <>
-            <TextInput placeholder='Title' onChangeText={(text) => setCategory({ ...category, title: text })} />
-            <TextInput placeholder='Description' onChangeText={(text) => setCategory({ ...category, description: text })} />
-            <Text>{category.title}</Text>
-            <Text>{category.description}</Text>
-            <Button title='Create' onPress={haddleCreateCate} />
+        <ScrollView style={{ backgroundColor: '#fff' }}>
+            <View style={[styles.container, { marginVertical: 10 }]}>
+
+                <TextInput style={[styles.texInput, { marginVertical: 5 }]} placeholder='Title' onChangeText={(text) => setCategory({ ...category, title: text })} />
+                <TextInput style={[styles.texInput, { marginVertical: 5 }]} placeholder='Description' onChangeText={(text) => setCategory({ ...category, description: text })} />
+                <Button title='Create' onPress={haddleCreateCate} />
+            </View>
 
             {/* {db.cate} */}
-            {db.categories.map((item) => {
-                return (
-                    <View key={item._id}>
-                        <Text>{item.title}</Text>
-                        <Button title='delete' color={'red'} onPress={() => haddleDeleteCate(item)}/>
-                        {/* <Text onPress={() => haddleDeleteCate(item)}>X</Text> */}
-                        <Button title='update' onPress={()=>navigateUpdate(item)}/>
-                    </View>
-                )
-            })}
-            <Button title='go back' onPress={()=>props.navigation.goBack()}/>
-        </>
+            <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+                {db.categories.map((item) => {
+                    return (
+                        <View key={item._id} style={{ display: 'flex', flexDirection: 'row', }}>
+
+                            <View  style={{ marginVertical: 3, borderColor: 'black', borderTopLeftRadius: 10, borderBottomLeftRadius: 10, borderWidth: 1, padding: 3 }}>
+                                <Text style={styles.label} onPress={() => navigateUpdate(item)}>{item.title}</Text>
+                            </View>
+                            <Text onPress={() => haddleDeleteCate(item)} style={[styles.label, { padding: 3, marginVertical: 3, marginRight: 3, textAlign: 'center', borderColor: 'black', backgroundColor: 'red', color: 'black', borderTopRightRadius: 10, borderBottomRightRadius: 10, borderWidth: 1 }]}>X</Text>
+                        </View>
+                    )
+                })}
+
+            </View>
+            <Button title='go back' onPress={() => props.navigation.goBack()} />
+        </ScrollView>
     )
 }
 

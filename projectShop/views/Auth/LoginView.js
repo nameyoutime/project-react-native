@@ -1,12 +1,13 @@
-import { Text, View, Image, Button, Platform, TextInput } from 'react-native'
+import { Text, View, Image, Button, Platform, TextInput,StatusBar } from 'react-native'
 import React, { useEffect, useState } from 'react'
 
-import styles from '../../styles/mainStyle.js'
+import styles from '../../styles/loginStyle.js'
 import userApi from '../../api/userApi.js';
 import asyncStorage from '../../api/asynStorage';
 import { useDispatch } from 'react-redux'
 import { setCurrentUser } from '../../actions/userActions';
-// import { Input, Icon } from '@rneui/themed';
+import Icon from 'react-native-vector-icons/FontAwesome'
+
 
 const LoginView = ({ navigation }) => {
     const dispatch = useDispatch();
@@ -42,20 +43,36 @@ const LoginView = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <Text>LoginView</Text>
-            <TextInput placeholder="Username" onChangeText={(text) => setUserName(text)} />
-            <TextInput placeholder="Password" onChangeText={(text) => setPassword(text)} />
-            <Button title="Login" onPress={login} />
-            <Text>{error}</Text>
-            <Button
-                title="Go to register"
-                onPress={() => navigation.navigate('Register')}
-            />
-            <Button
-                title="Go to home"
-                onPress={() => navigation.navigate('Home')}
-            />
+            <View style={{ width: 60, height: 60, borderRadius: 30, backgroundColor: "#2196f3", justifyContent: 'center', alignItems: 'center' }}>
+                <Icon name='user' color='#eee' size={36} />
+            </View>
+            <Text style={{ color: '#2196f3', fontSize: 30, marginVertical: 15 }}>Sign in</Text>
+            <View>
+                <TextInput placeholder="Username" onChangeText={(text) => setUserName(text)} style={{ marginVertical: 15, width: 300, height: 40, backgroundColor: '#eee', borderRadius: 5, paddingLeft: 10 }} />
+                <TextInput secureTextEntry={true} placeholder="Password" onChangeText={(text) => setPassword(text)} style={{ marginVertical: 15, width: 300, height: 40, backgroundColor: '#eee', borderRadius: 5, paddingLeft: 10 }} />
+                <Text style={{color:'red',fontWeight:'bold',textAlign:'center'}}>{error}</Text>
+                <View style={{ marginBottom: 15 }}>
+                    <Button title='Login' onPress={login} />
+                </View>
+                <View>
+                    <Text onPress={() => { navigation.navigate('Register') }} style={{ textAlign: 'right', color: '#2196f3' }}>Don't have an account? Sign up</Text>
+                </View>
+            </View>
+            <StatusBar style="auto" />
         </View>
+        // <View style={styles.container}>
+        //     <Text>LoginView</Text>
+        //     <TextInput placeholder="Username" onChangeText={(text) => setUserName(text)} />
+        //     <TextInput placeholder="Password" onChangeText={(text) => setPassword(text)} />
+        //     <Text>{error}</Text>
+        //     <Button title="Login" onPress={login} />
+        //     <Button title="Go to register"
+        //         onPress={() => navigation.navigate('Register')} />
+        //     {/* <Button
+        //         title="Go to home"
+        //         onPress={() => navigation.navigate('Home')}
+        //     /> */}
+        // </View>
 
     )
 }

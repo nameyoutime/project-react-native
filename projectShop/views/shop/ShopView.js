@@ -66,23 +66,34 @@ const ShopView = (props) => {
             return (
                 <ScrollView
                     showsHorizontalScrollIndicator={false}
-                    contentContainerStyle={{
-                        flexGrow: 1,
-                        justifyContent: 'center',
-                        width: '100%',
-                    }}
+                // contentContainerStyle={{
+                //     flexGrow: 1,
+                //     justifyContent: 'center',
+                //     width: '100%',
+                // }}
                 >
                     {db.products.map((product, index) => {
                         return (
-                            <TouchableOpacity key={index} style={{ borderWidth: 2, borderColor: 'black' }} onPress={() => handdleViewDetail(product)} >
-                                <Image source={{ uri: product.images[0].url }} style={{ width: 100, height: 100 }} />
-                                <Text>{product.title}-{product.price}</Text>
-                                {product.categories.map((cate, index) => {
-                                    return (
-                                        <Text key={index}>{cate.title}</Text>
-                                    )
-                                })}
-                                <View>
+                            <TouchableOpacity key={index} style={style.card} onPress={() => handdleViewDetail(product)} >
+                                <View style={{ display: 'flex', flexDirection: 'row' }}>
+                                    <Image source={{ uri: product.images[0].url }} style={style.cardImage} />
+                                    <View style={{ paddingHorizontal: 10 }}>
+                                        <Text style={style.label}>Title: {product.title}</Text>
+                                        <Text style={style.label}>Description: {product.description}</Text>
+                                        <Text style={style.label}>Price: {product.price}</Text>
+                                        <View style={{ display: 'flex', flexDirection: 'row' }}>
+                                            <Text style={{ fontSize: 12, fontWeight: 'bold' }}>Category: </Text>
+                                            {product.categories.map((cate, index) => {
+                                                return (
+                                                    <Text key={index}> {cate.title}</Text>
+                                                )
+                                            })}
+                                        </View>
+                                        <View>
+                                        </View>
+                                    </View>
+
+
 
                                 </View>
 
@@ -97,10 +108,14 @@ const ShopView = (props) => {
 
     const hadleAdmin = () => {
         return (
-            <>
-                <Button title='Category' onPress={() => props.navigation.navigate('Create category')} />
-                <Button title='Product' onPress={() => props.navigation.navigate('Create product')} />
-            </>
+            <View style={{ marginVertical: 10 }}>
+
+                <Text style={[style.label, { textAlign: 'center' }]}>Admin function</Text>
+                <View style={{ display: 'flex', flexDirection: 'row', }}>
+                    <Button title='Category' onPress={() => props.navigation.navigate('Create category')} />
+                    <Button color={'green'} title='Product' onPress={() => props.navigation.navigate('Create product')} />
+                </View>
+            </View>
 
         )
     }
@@ -110,37 +125,43 @@ const ShopView = (props) => {
     }
     return (
         <View style={style.container}>
-            <TextInput value={keyWord} style={style.input} placeholder='Search' onChangeText={(text) => setKeyWord(text)} />
-            <Button title='Search' onPress={() => handleSearch()} />
+            <View style={{ display: 'flex', flexDirection: 'row' }}>
+
+                <TextInput value={keyWord} style={style.texInput} placeholder='Search' onChangeText={(text) => setKeyWord(text)} />
+                <Button title='Search' onPress={() => handleSearch()} />
+            </View>
             {profile.isAdmin ? (hadleAdmin()) : null}
-            <Picker
-                onValueChange={(itemValue, itemIndex) => {
-                    setConfig({ ...config, category: itemValue })
-                    dispatch(setAllProduct(null));
-                }
-                }
-                style={{ width: 100 }}>
-                <Picker.Item label='all' value='all' />
-                {categories.map((item, index) => {
-                    return (
-                        <Picker.Item key={index} label={item.title} value={item._id} />
-                    )
-                })}
-            </Picker>
-            <Picker
-                onValueChange={(itemValue, itemIndex) => {
-                    setConfig({ ...config, sort: itemValue })
-                    dispatch(setAllProduct(null));
-                }
-                }
-                style={{ width: 100 }}>
-                {fillter.map((item, index) => {
-                    return (
-                        <Picker.Item key={index} label={item.label} value={item.value} />
-                    )
-                })}
-            </Picker>
-            <Text>ShopView</Text>
+            <View style={{ display: 'flex', flexDirection: 'row', marginVertical: 10 }}>
+                <Picker
+                    onValueChange={(itemValue, itemIndex) => {
+                        setConfig({ ...config, category: itemValue })
+                        dispatch(setAllProduct(null));
+                    }
+                    }
+                    style={style.picker}>
+                    <Picker.Item label='all' value='all' />
+                    {categories.map((item, index) => {
+                        return (
+                            <Picker.Item key={index} label={item.title} value={item._id} />
+                        )
+                    })}
+                </Picker>
+                <Picker
+                    onValueChange={(itemValue, itemIndex) => {
+                        setConfig({ ...config, sort: itemValue })
+                        dispatch(setAllProduct(null));
+                    }
+                    }
+                    style={style.picker}>
+                    {fillter.map((item, index) => {
+                        return (
+                            <Picker.Item key={index} label={item.label} value={item.value} />
+                        )
+                    })}
+                </Picker>
+            </View>
+
+            {/* <Text>ShopView</Text> */}
             {(db.products != null) ? renderProducts() : null}
         </View>
     )

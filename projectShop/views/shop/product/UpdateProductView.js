@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TextInput, Button, Image } from 'react-native'
+import { StyleSheet, Text, View, TextInput, Button, Image, ScrollView } from 'react-native'
 import React, { useState } from 'react'
 import { MultiSelect } from 'react-native-element-dropdown';
 import * as Imagepicker from 'expo-image-picker';
@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import { setAllProduct, updatedProduct } from '../../../actions/productAction';
 import { Platform } from 'react-native';
 import { ImagePicker } from 'expo-image-multiple-picker'
+import styles from '../../../styles/mainStyle';
 
 
 
@@ -71,10 +72,10 @@ const UpdateProductView = (props) => {
     };
     const pickImage2 = async (assets) => {
         let temp = []
-            for (let i = 0; i < assets.length; i++) {
-                const element = assets[i];
-                temp = [...temp, { uri: element.uri }];
-            }
+        for (let i = 0; i < assets.length; i++) {
+            const element = assets[i];
+            temp = [...temp, { uri: element.uri }];
+        }
         setImages(temp);
 
     }
@@ -128,12 +129,21 @@ const UpdateProductView = (props) => {
         )
     }
     return (
-        <View>
+        <ScrollView style={{ backgroundColor: '#fff' }}>
             {/* <Text>UpdateProductView</Text> */}
-            <TextInput value={product.title} onChangeText={(text) => setProduct({ ...product, title: text })} />
-            <TextInput value={product.price} onChangeText={(text) => setProduct({ ...product, price: text })} />
-            <TextInput value={product.description} onChangeText={(text) => setProduct({ ...product, description: text })} />
-            <TextInput value={product.quantity} onChangeText={(text) => setProduct({ ...product, quantity: text })} />
+            <View style={styles.container}>
+                <Text style={styles.label}>Title</Text>
+                <TextInput style={[styles.texInput, { marginVertical: 5 }]} value={product.title} onChangeText={(text) => setProduct({ ...product, title: text })} />
+                
+                <Text style={styles.label}>Description</Text>
+                <TextInput style={[styles.texInput, { marginVertical: 5 }]} value={product.description} onChangeText={(text) => setProduct({ ...product, description: text })} />
+                <Text style={styles.label}>Price</Text>
+                
+                <TextInput style={[styles.texInput, { marginVertical: 5 }]} value={product.price} onChangeText={(text) => setProduct({ ...product, price: text })} />
+                
+                <Text style={styles.label}>Quantity</Text>
+                <TextInput style={[styles.texInput, { marginVertical: 5 }]} value={product.quantity} onChangeText={(text) => setProduct({ ...product, quantity: text })} />
+            </View>
 
 
             <MultiSelect
@@ -146,7 +156,7 @@ const UpdateProductView = (props) => {
                 data={cateState}
                 labelField="title"
                 valueField="_id"
-                placeholder="Select item"
+                placeholder="Select categories"
                 searchPlaceholder="Search..."
                 value={selectedCate}
                 onChange={item => {
@@ -157,20 +167,64 @@ const UpdateProductView = (props) => {
                 )}
                 selectedStyle={styles.selectedStyle}
             />
-            {productCate.map((item, index) => {
-                return (
-                    <View key={index}>
-                        <Text>{item.title}</Text>
-                        <Button title='X' onPress={() => {
-                            let temp = productCate.filter((v) => v._id !== item._id)
-                            setProductCate(temp);
-                        }} />
+            <View>
 
-                    </View>
-                )
-            })}
-            <Text>Images</Text>
-            {selectedimages.map((item, index) => {
+                <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+                    {productCate.map((item, index) => {
+                        return (
+                            <View key={index} >
+
+                                <View style={{ display: 'flex', flexDirection: 'row', }}>
+                                    <View style={{ marginVertical: 3, borderColor: 'black', borderTopLeftRadius: 10, borderBottomLeftRadius: 10, borderWidth: 1, padding: 3 }}>
+                                        <Text style={styles.label}>{item.title}</Text>
+                                    </View>
+                                    {/* <Button title='X'  /> */}
+
+                                    <Text onPress={() => {
+                                        let temp = productCate.filter((v) => v._id !== item._id)
+                                        setProductCate(temp);
+                                    }} style={[styles.label, { padding: 3, marginVertical: 3, marginRight: 3, textAlign: 'center', borderColor: 'black', backgroundColor: 'red', color: 'black', borderTopRightRadius: 10, borderBottomRightRadius: 10, borderWidth: 1 }]}>X</Text>
+                                </View>
+                            </View>
+                        )
+                    })}
+
+                </View>
+            </View>
+            <Text style={styles.label}>Images</Text>
+            <View style={{ borderWidth: 1, padding: 5, display: 'flex', flexDirection: 'row' }}>
+                <ScrollView horizontal={true}>
+
+
+                    {selectedimages.map((item, index) => {
+
+                        return (
+                            <View key={index} style={{ marginLeft: 5 }}>
+                                <Image source={{ uri: item.url }} style={{ width: 100, height: 100 }} />
+                                <Text onPress={() => {
+                                    let temp = selectedimages.filter((v) => v !== item)
+                                    setSelectedimages(temp);
+                                    setDeletedImages([...deletedImages, item]);
+                                }} style={{ fontSize: 10, textAlign: 'center', borderRadius: 100, backgroundColor: 'red', color: 'black', fontWeight: 'bold', borderWidth: 1, width: 20, height: 20, position: 'absolute', top: 0, right: 0 }}>X</Text>
+                            </View>
+                        )
+
+                    })}
+                    {images.map((item, index) => {
+
+                        return (
+                            <View key={index} style={{ marginLeft: 5 }}>
+                                <Image source={{ uri: item.uri }} style={{ width: 100, height: 100 }} />
+                                <Text onPress={() => {
+                                    let temp = images.filter((v) => v !== item)
+                                    setImages(temp);
+                                }} style={{ fontSize: 10, textAlign: 'center', borderRadius: 100, backgroundColor: 'red', color: 'black', fontWeight: 'bold', borderWidth: 1, width: 20, height: 20, position: 'absolute', top: 0, right: 0 }}>X</Text>
+                            </View>
+                        )
+                    })}
+                </ScrollView>
+            </View>
+            {/* {selectedimages.map((item, index) => {
 
                 return (
                     <View key={index}>
@@ -183,8 +237,8 @@ const UpdateProductView = (props) => {
                     </View>
                 )
 
-            })}
-            {images.map((item, index) => {
+            })} */}
+            {/* {images.map((item, index) => {
 
                 return (
                     <View key={index}>
@@ -195,7 +249,7 @@ const UpdateProductView = (props) => {
                         }} />
                     </View>
                 )
-            })}
+            })} */}
             {(platfrom == 'web') ? (<Button
                 title="pickImage"
                 onPress={pickImage}
@@ -205,38 +259,8 @@ const UpdateProductView = (props) => {
                 </>
             )}
             <Button title='Update' onPress={handdleUpdate} />
-        </View>
+        </ScrollView>
     )
 }
 
 export default UpdateProductView
-
-const styles = StyleSheet.create({
-    container: { padding: 16 },
-    dropdown: {
-        height: 50,
-        backgroundColor: 'transparent',
-        borderBottomColor: 'gray',
-        borderBottomWidth: 0.5,
-    },
-    placeholderStyle: {
-        fontSize: 16,
-    },
-    selectedTextStyle: {
-        fontSize: 14,
-    },
-    iconStyle: {
-        width: 20,
-        height: 20,
-    },
-    inputSearchStyle: {
-        height: 40,
-        fontSize: 16,
-    },
-    icon: {
-        marginRight: 5,
-    },
-    selectedStyle: {
-        borderRadius: 12,
-    },
-})
