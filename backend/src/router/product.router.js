@@ -33,10 +33,13 @@ router.get('/', async (req, res) => {
                 break;
         }
         if (config.category == 'all') {
-            data = await ProductDB.find().populate('categories').sort(config.sort).limit(config.limit).skip(config.skip);
+            data = await ProductDB.find().populate('categories').sort(config.sort).limit(config.limit).skip(config.skip*config.limit);
+            // setTimeout(() => {
+            //     console.log("test")
+            // }, 5000);
         } else {
             let objectid = { categories: mongoose.Types.ObjectId(config.category) };
-            data = await ProductDB.find(objectid).populate('categories').sort(config.sort).limit(config.limit).skip(config.skip);
+            data = await ProductDB.find(objectid).populate('categories').sort(config.sort).limit(config.limit).skip(config.skip*config.limit);
             // console.log(data);
         }
 
