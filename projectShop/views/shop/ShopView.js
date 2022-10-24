@@ -11,6 +11,7 @@ import { setAllCate } from '../../actions/categoryAction'
 import categoryApi from '../../api/categoryApi'
 import { Picker } from '@react-native-picker/picker';
 import asyncStorage from '../../api/asynStorage';
+import LoadingView from '../utilities/LoadingView'
 
 const ShopView = (props) => {
     const db = useSelector((store) => store.product);
@@ -30,7 +31,7 @@ const ShopView = (props) => {
         sort: 'newest',
         category: 'all'
     })
-
+    const [loading, setLoading] = useState(false);
     const checkCart = async () => {
         let cart = await asyncStorage.get('cart');
         if (!cart) await asyncStorage.set('cart', []);
@@ -38,6 +39,7 @@ const ShopView = (props) => {
     }
     useEffect(() => {
         if (focus) {
+            setLoading(true);
             const state = Store.getState();
             setUser(state.user.currentUser);
             setProfile(state.user.currentUser.user);
@@ -45,6 +47,7 @@ const ShopView = (props) => {
             if (categories.length === 0) fetchCategories();
             if (!products) fetchProducts();
             checkCart();
+            setLoading(false);
         }
     }, [focus, config]);
     const fetchCategories = async () => {
@@ -128,7 +131,7 @@ const ShopView = (props) => {
                         )
                     }}
                 />
-                
+
 
                 // <ScrollView
                 //     showsHorizontalScrollIndicator={false}
@@ -189,6 +192,9 @@ const ShopView = (props) => {
         setKeyWord('')
         if (keyWord.length > 0) props.navigation.navigate('Search', { keyWord: keyWord })
     }
+
+    if(loading) return <LoadingView/>
+
     return (
         <View style={style.container}>
             <View style={{ display: 'flex', flexDirection: 'row' }}>
