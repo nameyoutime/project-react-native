@@ -26,7 +26,7 @@ router.post('/', async (req, res) => {
         if (check) {
             res.send({ error: "Order already exist!" })
         } else {
-            let newOrder = new OrderDB(order);
+            let newOrder = new OrderDB({ ...order, status: 0, timestamp: new Date().getTime() });
             let data = await newOrder.save();
             res.send({ data: data })
         }

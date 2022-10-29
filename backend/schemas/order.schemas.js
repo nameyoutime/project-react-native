@@ -9,6 +9,7 @@ const OrderSchema = new Schema({
     user: { type: Schema.Types.ObjectId, ref: 'User' },
     total: { type: Number, default: 1 },
     status: { type: Number, default: 0 },
+    timestamp: { type: Number, default: 0 }
 });
 
 module.exports = OrderSchema;
