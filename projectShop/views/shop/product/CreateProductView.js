@@ -1,4 +1,4 @@
-import { View, Text, Button, StyleSheet, TextInput, Image, ScrollView, TouchableOpacity } from 'react-native'
+import { View, Text, Button, StyleSheet, TextInput, Image, ScrollView, TouchableOpacity, FlatList } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import * as Imagepicker from 'expo-image-picker';
 import { firebase } from '../../../firebase';
@@ -132,22 +132,36 @@ const CreateProductView = (props) => {
             />
         )
     }
+    const renderItem = ({ item }) => (
+        <View style={{ marginLeft: 5 }}>
+            <Image source={{ uri: item }} style={{ width: 100, height: 100 }} />
+            <Text onPress={() => {
+                let temp = selectedimages.filter((v) => v !== item)
+                setSelectedimages(temp);
+            }} style={{ fontSize: 10, textAlign: 'center', borderRadius: 100, backgroundColor: 'red', color: 'black', fontWeight: 'bold', borderWidth: 1, width: 20, height: 20, position: 'absolute', top: 0, right: 0 }}>X</Text>
+        </View>
+    );
     return (
-        <ScrollView style={{ backgroundColor: '#fff' }}>
-            <View style={styles.container}>
+        <View style={{ backgroundColor: '#fff' }}>
+            <View>
+
+                {/* 
                 <View>
                     <Text style={styles.title}>Admin's function: Create product</Text>
-                </View>
-                <View style={{ height: 600 }}>
-                    <Text style={styles.label}>Title</Text>
-                    <TextInput style={styles.texInput} placeholder="Title" onChangeText={(text) => setProduct({ ...product, title: text })} />
-                    <Text style={styles.label}>Price</Text>
-                    <TextInput style={styles.texInput} placeholder="Price" onChangeText={(text) => setProduct({ ...product, price: text })} />
-                    <Text style={styles.label}>Description</Text>
-                    <TextInput style={styles.texInput} placeholder="Description" onChangeText={(text) => setProduct({ ...product, description: text })} />
-                    <Text style={styles.label}>Quantity</Text>
-                    <TextInput style={styles.texInput} placeholder="Quantity" onChangeText={(text) => setProduct({ ...product, quantity: text })} />
-                    <Text style={styles.label}>Select categories</Text>
+                </View> */}
+                <View style={[{ height: 600 }]}>
+                    <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+
+                        <Text style={styles.label}>Title</Text>
+                        <TextInput style={styles.texInput} placeholder="Title" onChangeText={(text) => setProduct({ ...product, title: text })} />
+                        <Text style={styles.label}>Price</Text>
+                        <TextInput style={styles.texInput} placeholder="Price" onChangeText={(text) => setProduct({ ...product, price: text })} />
+                        <Text style={styles.label}>Description</Text>
+                        <TextInput style={styles.texInput} placeholder="Description" onChangeText={(text) => setProduct({ ...product, description: text })} />
+                        <Text style={styles.label}>Quantity</Text>
+                        <TextInput style={styles.texInput} placeholder="Quantity" onChangeText={(text) => setProduct({ ...product, quantity: text })} />
+                        <Text style={styles.label}>Select categories</Text>
+                    </View>
                     <MultiSelect
                         style={styles.dropdown}
                         placeholderStyle={styles.placeholderStyle}
@@ -165,27 +179,28 @@ const CreateProductView = (props) => {
                         onChange={item => { setSelectedCate(item); setProduct({ ...product, categories: item }); }}
                     />
                     <Text style={styles.label}>Select image</Text>
+
                     <View style={{ borderWidth: 1, padding: 5, display: 'flex', flexDirection: 'row' }}>
-                        <ScrollView horizontal={true}>
-                            {selectedimages.map((item, index) => {
-                                return (
-                                    <View key={index} style={{ marginLeft: 5 }}>
-                                        <Image source={{ uri: item }} style={{ width: 100, height: 100 }} />
-                                        <Text onPress={() => {
-                                            let temp = selectedimages.filter((v) => v !== item)
-                                            setSelectedimages(temp);
-                                        }} style={{ fontSize: 10, textAlign: 'center', borderRadius: 100, backgroundColor: 'red', color: 'black', fontWeight: 'bold', borderWidth: 1, width: 20, height: 20, position: 'absolute', top: 0, right: 0 }}>X</Text>
-                                    </View>
-                                )})}
-                        </ScrollView>
+                        <FlatList
+                            horizontal
+                            data={selectedimages}
+                            renderItem={renderItem}
+                            keyExtractor={(item, index) => index}
+                        />
                     </View>
-                    <View style={{ display: 'flex', justifyContent: 'center', marginVertical: 5 }}>
-                        {(platfrom == 'web') ? (<TouchableOpacity style={styles.texInput} onPress={pickImage}> Pick image </TouchableOpacity>) : (<TouchableOpacity style={styles.texInput} onPress={() => setOpen(true)}> Pick image </TouchableOpacity>)}
+                    <View style={{ display: 'flex', justifyContent: 'center',alignItems:'center', marginVertical: 5 }}>
+                        {(platfrom == 'web') ? (
+                            <TouchableOpacity style={styles.texInput} onPress={pickImage}>
+                                <Text style={{color:'white',fontSize:16}}>Pick Image</Text>
+                            </TouchableOpacity>
+                        ) : (
+                            <TouchableOpacity style={styles.texInput} onPress={() => setOpen(true)}>
+                                <Text style={{color:'white',fontSize:16}}>Pick Image</Text>
+                            </TouchableOpacity>
+                        )}
                     </View>
-                </View>
-                <View style={styles.buttonContainer}>
-                    
-                    
+
+                <View style={{display:'flex',flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
                     <TouchableOpacity style={[styles.button, styles.button1]} onPress={handleNewProduct}>
                         <Text style={styles.btnTextblack}> Create a new Product </Text>
                     </TouchableOpacity>
@@ -193,11 +208,27 @@ const CreateProductView = (props) => {
                         <Text style={styles.btnTextwhite}> Go back to shop </Text>
                     </TouchableOpacity>
                 </View>
+                </View>
+                {/* <ScrollView horizontal={true}>
+                        {selectedimages.map((item, index) => {
+                            return (
+                                <View key={index} style={{ marginLeft: 5 }}>
+                                    <Image source={{ uri: item }} style={{ width: 100, height: 100 }} />
+                                    <Text onPress={() => {
+                                        let temp = selectedimages.filter((v) => v !== item)
+                                        setSelectedimages(temp);
+                                    }} style={{ fontSize: 10, textAlign: 'center', borderRadius: 100, backgroundColor: 'red', color: 'black', fontWeight: 'bold', borderWidth: 1, width: 20, height: 20, position: 'absolute', top: 0, right: 0 }}>X</Text>
+                                </View>
+                            )
+                        })}
+                    </ScrollView> */}
+
+
             </View>
 
 
 
-        </ScrollView>
+        </View>
     )
 }
 

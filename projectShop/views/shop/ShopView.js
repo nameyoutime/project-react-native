@@ -45,6 +45,7 @@ const ShopView = (props) => {
             setUser(state.user.currentUser);
             setProfile(state.user.currentUser.user);
             let products = state.product.products;
+            // console.log(products)
             if (categories.length === 0) fetchCategories();
             if (!products) fetchProducts();
             checkCart();
@@ -59,6 +60,7 @@ const ShopView = (props) => {
     }
     const fetchProducts = async () => {
         let res = await productApi.getAll(config.category, config.sort, config.limit, 0);
+        // console.log(res.data.data)
         dispatch(setAllProduct(res.data.data))
         setSkip(0);
         setNoData(false);

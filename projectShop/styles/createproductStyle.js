@@ -31,8 +31,8 @@ export default StyleSheet.create({
     },
     button: {
         height: 40,
-        marginTop: 10,
-        marginBottom: 10,
+        marginTop: 5,
+        marginBottom: 5,
         borderRadius: 15,
         alignItems: 'center',
         justifyContent: 'center',
@@ -73,10 +73,27 @@ export default StyleSheet.create({
         margin: 40,
     },
     dropdown: {
+        marginLeft:45,
         height: 50,
         backgroundColor: 'transparent',
         borderColor: 'gray',
         borderRadius: 12.8,
         borderWidth: 1,
+        width:300
+    },
+    placeholderStyle: {
+        fontSize: 16,
+    },
+    selectedTextStyle: {
+        fontSize: 14,
+
+    },
+    iconStyle: {
+        width: 20,
+        height: 20,
+    },
+    inputSearchStyle: {
+        height: 40,
+        fontSize: 16,
     },
 });

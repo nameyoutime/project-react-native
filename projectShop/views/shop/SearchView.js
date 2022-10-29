@@ -37,17 +37,12 @@ const SearchView = (props) => {
                 <Text style={style.title}>Search results for [từ điền vào]</Text>
             </View>
             <ScrollView showsHorizontalScrollIndicator={false}
-            // contentContainerStyle={{
-            //     flexGrow: 1,
-            //     justifyContent: 'center',
-            //     width: '100%',
-            // }}
             >
 
                 {products.length != 0 ? products.map((product, index) => {
                     return (
-                        
-                        <TouchableOpacity style={style.card} onPress={() => handdleViewDetail(product)} >
+
+                        <TouchableOpacity key={product._id} style={style.card} onPress={() => handdleViewDetail(product)} >
                             <View style={{ display: 'flex', flexDirection: 'row' }}>
                                 <Image source={{ uri: product.images[0].url }} style={style.cardImage} />
                                 <View style={{ paddingHorizontal: 10 }}>

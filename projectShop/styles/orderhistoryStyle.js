@@ -46,7 +46,7 @@ export default StyleSheet.create({
     // card with shadow
     card1: {
         width: 350,
-        height: 280,
+        // height: 500,
         backgroundColor: '#FFAAA5',
         margin: 10,
         padding: 10,
