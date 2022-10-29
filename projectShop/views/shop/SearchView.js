@@ -34,7 +34,7 @@ const SearchView = (props) => {
     return (
         <View style={style.container}>
             <View>
-                <Text style={style.title}>Search results for [từ điền vào]</Text>
+                <Text style={style.title}>Search results for {props.route.params.keyWord}</Text>
             </View>
             <ScrollView showsHorizontalScrollIndicator={false}
             >
