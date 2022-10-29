@@ -1,6 +1,5 @@
 import { View, Text, Button, Image, TouchableOpacity, TextInput, ScrollView, FlatList, SafeAreaView } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import style from '../../styles/mainStyle'
 import { Store } from '../../store/store'
 import { useIsFocused } from '@react-navigation/native'
 import productApi from '../../api/productApi'
@@ -12,6 +11,8 @@ import categoryApi from '../../api/categoryApi'
 import { Picker } from '@react-native-picker/picker';
 import asyncStorage from '../../api/asynStorage';
 import LoadingView from '../utilities/LoadingView'
+import style from '../../styles/shopStyle.js'
+import Icon from 'react-native-vector-icons/FontAwesome'
 
 const ShopView = (props) => {
     const db = useSelector((store) => store.product);
@@ -101,22 +102,21 @@ const ShopView = (props) => {
 
                                 <TouchableOpacity style={style.card} onPress={() => handdleViewDetail(product)} >
                                     <View style={{ display: 'flex', flexDirection: 'row' }}>
+
                                         <Image source={{ uri: product.images[0].url }} style={style.cardImage} />
+
                                         <View style={{ paddingHorizontal: 10 }}>
-                                            <Text style={style.label}>Title: {product.title}</Text>
-                                            <Text style={style.label}>Description: {product.description}</Text>
-                                            <Text style={style.label}>Price: {product.price}</Text>
+                                            <Text style={style.label}>Title:<Text style={style.labelInner}> {product.title}</Text></Text>
+                                            <Text style={style.label}>Description:<Text style={style.labelInner}> {product.description}</Text></Text>
+                                            <Text style={style.label}>Price:<Text style={style.labelInner}> {product.price}</Text></Text>
+
                                             <View style={{ display: 'flex', flexDirection: 'row' }}>
-                                                <Text style={{ fontSize: 12, fontWeight: 'bold' }}>Category: </Text>
-                                                {product.categories.map((cate) => {
-                                                    return (
-                                                        <Text key={cate._id}> {cate.title}</Text>
-                                                    )
-                                                })}
+                                                <Text style={style.label}>Category: </Text>
+                                                {product.categories.map((cate) => { return (<Text style={style.labelInner} key={cate._id}> {cate.title}</Text>) })}
                                             </View>
-                                            <View>
-                                            </View>
+
                                         </View>
+
                                     </View>
                                 </TouchableOpacity>
                             </View>
@@ -179,10 +179,17 @@ const ShopView = (props) => {
         return (
             <View style={{ marginVertical: 10 }}>
 
-                <Text style={[style.label, { textAlign: 'center' }]}>Admin function</Text>
+                {/* <Text style={[style.label, { textAlign: 'center' }]}>Admin function</Text> */}
                 <View style={{ display: 'flex', flexDirection: 'row', }}>
-                    <Button title='Category' onPress={() => props.navigation.navigate('Create category')} />
-                    <Button color={'green'} title='Product' onPress={() => props.navigation.navigate('Create product')} />
+                    <View style={style.adminBar}>
+                        <Icon style={style.plusIcon} name='plus-square' color='#BCABA2' size={20} />
+                        <TouchableOpacity style={style.button} onPress={() => props.navigation.navigate('Create category')}>
+                            <Text style={style.btnText}> Add Category </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={style.button} onPress={() => props.navigation.navigate('Create product')}>
+                            <Text style={style.btnText}> Add Product </Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
 
@@ -193,44 +200,39 @@ const ShopView = (props) => {
         if (keyWord.length > 0) props.navigation.navigate('Search', { keyWord: keyWord })
     }
 
-    if(loading) return <LoadingView/>
+    if (loading) return <LoadingView />
 
     return (
         <View style={style.container}>
-            <View style={{ display: 'flex', flexDirection: 'row' }}>
-
-                <TextInput value={keyWord} style={style.texInput} placeholder='Search' onChangeText={(text) => setKeyWord(text)} />
-                <Button title='Search' onPress={() => handleSearch()} />
+            <View style={style.searchBar}>
+                <Icon style={style.searchIcon} name='search' color='#BCABA2' size={20} onPress={() => handleSearch()} />
+                <TextInput style={style.searchInput} value={keyWord} placeholder='Find your product' onChangeText={(text) => setKeyWord(text)} />
+                {/* <Button title='Search' onPress={() => handleSearch()} /> */}
             </View>
+
             {profile.isAdmin ? (hadleAdmin()) : null}
+
             <View style={{ display: 'flex', flexDirection: 'row', marginVertical: 10 }}>
-                <Picker
-                    onValueChange={(itemValue, itemIndex) => {
-                        setConfig({ ...config, category: itemValue })
-                        dispatch(setAllProduct(null));
-                    }
-                    }
-                    style={style.picker}>
-                    <Picker.Item label='all' value='all' />
-                    {categories.map((item, index) => {
-                        return (
-                            <Picker.Item key={index} label={item.title} value={item._id} />
-                        )
-                    })}
-                </Picker>
-                <Picker
-                    onValueChange={(itemValue, itemIndex) => {
-                        setConfig({ ...config, sort: itemValue })
-                        dispatch(setAllProduct(null));
-                    }
-                    }
-                    style={style.picker}>
-                    {fillter.map((item, index) => {
-                        return (
-                            <Picker.Item key={index} label={item.label} value={item.value} />
-                        )
-                    })}
-                </Picker>
+                <View style={style.adminBar}>
+                    <Icon style={style.plusIcon} name='sort-amount-desc' color='#BCABA2' size={20} />
+                    <Picker
+                        onValueChange={(itemValue, itemIndex) => {
+                            setConfig({ ...config, category: itemValue })
+                            dispatch(setAllProduct(null));
+                        }}
+                        style={style.picker}>
+                        <Picker.Item label='All' value='all' />
+                        {categories.map((item, index) => { return (<Picker.Item key={index} label={item.title} value={item._id} />) })}
+                    </Picker>
+                    <Picker
+                        onValueChange={(itemValue, itemIndex) => {
+                            setConfig({ ...config, sort: itemValue })
+                            dispatch(setAllProduct(null));
+                        }}
+                        style={style.picker}>
+                        {fillter.map((item, index) => { return (<Picker.Item key={index} label={item.label} value={item.value} />) })}
+                    </Picker>
+                </View>
             </View>
 
             {/* <Text>ShopView</Text> */}

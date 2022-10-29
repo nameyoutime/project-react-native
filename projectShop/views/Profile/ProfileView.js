@@ -1,13 +1,13 @@
-import { View, Text, Button, TextInput } from 'react-native'
+import { View, Text, Button, TextInput, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import styles from '../../styles/mainStyle.js'
 import { useDispatch } from 'react-redux'
 import asyncStorage from '../../api/asynStorage.js';
 import userApi from '../../api/userApi.js'
 import { useIsFocused } from "@react-navigation/native";
 import { setCurrentUser } from '../../actions/userActions';
 import { useNavigation, useRoute } from '@react-navigation/native';
-// import styles from '../../styles/styles.js';
+import Icon from 'react-native-vector-icons/FontAwesome'
+import styles from '../../styles/profileStyle.js'
 
 const ProfileView = (props) => {
     const Route = useRoute();
@@ -40,8 +40,6 @@ const ProfileView = (props) => {
             setUser(null)
         }
     }
-
-
     const handdleLogout = async () => {
         try {
             await asyncStorage.set('user', null);
@@ -81,25 +79,31 @@ const ProfileView = (props) => {
     const renderUser = () => {
         return (
             <>
-                <Button title='Order History' onPress={() => { props.navigation.navigate('Order history', { userId: user._id, isAdmin: profile.isAdmin }) }} />
+                <View style={styles.avatar}>
+                    <Icon name='user' color='#eee' size={70} />
+                </View>
+                <Text style={styles.userName}>{user.userName}</Text>
                 <View >
-                    <Text style={styles.label}>User Name : {user.userName}</Text>
                     <Text style={styles.label}>Name</Text>
                     <TextInput style={styles.texInput} placeholder='name' defaultValue={profile.name} onChangeText={(e) => setProfile({ ...profile, name: e })} />
                     <Text style={styles.label}>Address</Text>
                     <TextInput style={styles.texInput} placeholder='address' defaultValue={profile.address} onChangeText={(e) => setProfile({ ...profile, address: e })} />
                     <Text style={styles.label}>Email</Text>
-
                     <TextInput style={styles.texInput} placeholder='email' defaultValue={profile.email} onChangeText={(e) => setProfile({ ...profile, email: e })} />
                     <Text style={styles.label}>Phone</Text>
-
                     <TextInput style={styles.texInput} keyboardType='numeric' placeholder='phone' defaultValue={profile.phone} onChangeText={(e) => setProfile({ ...profile, phone: e })} />
-                    <View style={{marginVertical:10}}>
-                        <Button title="update" onPress={handdleUpdate} />
-
-                    </View>
                 </View>
-
+                <View style={styles.buttonContainer}>
+                    <TouchableOpacity style={[styles.button, styles.button1]} onPress={handdleUpdate}>  
+                        <Text style={styles.btnTextblack}> UPDATE PROFILE </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.button, styles.button2]} onPress={()=>{props.navigation.navigate('Order history', { userId: user._id, isAdmin: profile.isAdmin })}}>  
+                        <Text style={styles.btnTextblack}> ORDER HISTORY </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.button, styles.button3]} onPress={handdleLogout} > 
+                        <Text style={styles.btnTextwhite}> LOGOUT </Text>
+                    </TouchableOpacity>
+                </View>
             </>
         )
     }
@@ -109,7 +113,6 @@ const ProfileView = (props) => {
             <Button title="Check" onPress={checkUser} />
         )
     }
-
 
     useEffect(() => {
         console.log(focus)
@@ -127,7 +130,7 @@ const ProfileView = (props) => {
             <>
                 <View style={styles.container}>
                     {user != null ? (renderUser()) : (<Text>Not found</Text>)}
-                    <Button title="Logout" onPress={handdleLogout} />
+                    {/* <Button title="Logout" onPress={handdleLogout} /> */}
                     {/* <View>{(user != null && profile.isAdmin) ? (renderAdmin()) : (<Text>not admin</Text>)}</View> */}
 
                 </View>
