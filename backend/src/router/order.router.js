@@ -8,7 +8,7 @@ const OrderDB = mongoose.model('Order', orderSchema);
 router.get('/', async (req, res) => {
     // get all order
     try {
-        let data = await OrderDB.find().populate('products.product').populate('user');
+        let data = await OrderDB.find().populate('user').populate('products.product')
         res.send({ data: data })
     }
     catch (error) {
