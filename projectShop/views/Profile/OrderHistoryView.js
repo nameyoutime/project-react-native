@@ -12,15 +12,18 @@ const OrderHistoryView = (props) => {
     const [orders, setOrders] = useState([]);
     useEffect(() => {
         if (focus) {
+            // console.log(focus)
             fetchOrders(userId, isAdmin);
         }
     }, [focus])
     const fetchOrders = async (userId, isAdmin) => {
+
         let respone = [];
         if (isAdmin) respone = await orderApi.getAll();
         else respone = await orderApi.get(userId);
 
         setOrders(respone.data.data);
+
     }
     const handleGetUser = async (id) => {
         // let respone = await userApi.getUser(id);
@@ -29,7 +32,7 @@ const OrderHistoryView = (props) => {
     }
 
     const handleRenderOrders = () => {
-        console.log(orders);
+        // console.log(orders);
         return (
             <ScrollView showsHorizontalScrollIndicator={false}>
                 {orders.map((order) => {
