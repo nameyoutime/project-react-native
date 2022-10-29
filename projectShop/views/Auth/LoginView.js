@@ -1,4 +1,4 @@
-import { Text, View, Image, Button, Platform, TextInput,StatusBar } from 'react-native'
+import { Text, View, Image, Button, Platform, TextInput,StatusBar,TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
 
 import styles from '../../styles/loginStyle.js'
@@ -43,19 +43,22 @@ const LoginView = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <View style={{ width: 60, height: 60, borderRadius: 30, backgroundColor: "#2196f3", justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ width: 60, height: 60, borderRadius: 30, backgroundColor: "#293462", justifyContent: 'center', alignItems: 'center' }}>
                 <Icon name='user' color='#eee' size={36} />
             </View>
-            <Text style={{ color: '#2196f3', fontSize: 30, marginVertical: 15 }}>Sign in</Text>
+            <Text style={{ color: '#D61C4E', fontSize: 30, marginVertical: 15 }}>Sign in</Text>
             <View>
-                <TextInput placeholder="Username" onChangeText={(text) => setUserName(text)} style={{ marginVertical: 15, width: 300, height: 40, backgroundColor: '#eee', borderRadius: 5, paddingLeft: 10 }} />
-                <TextInput secureTextEntry={true} placeholder="Password" onChangeText={(text) => setPassword(text)} style={{ marginVertical: 15, width: 300, height: 40, backgroundColor: '#eee', borderRadius: 5, paddingLeft: 10 }} />
+                <TextInput placeholder="Username" onChangeText={(text) => setUserName(text)} style={{ padding: 10, borderWidth: 1, borderColor: '#293462', width: 300, borderRadius: 5 }} />
+                <TextInput secureTextEntry={true} placeholder="Password" onChangeText={(text) => setPassword(text)} style={{ marginVertical: 15, padding: 10, borderWidth: 1, borderColor: '#293462', width: 300, borderRadius: 5 }} />
                 <Text style={{color:'red',fontWeight:'bold',textAlign:'center'}}>{error}</Text>
-                <View style={{ marginBottom: 15 }}>
+                <TouchableOpacity style={{ backgroundColor: '#1CD6CE',  padding: 15, marginVertical: 15, width: 300, borderRadius: 10 }} onPress={()=>{console.log('button is clicked!')}} >
+                    <Text style={{ color: '#eee', fontSize: 15, fontWeight: 'bold', textAlign: 'center' }} onPress={login}>Log In</Text>
+                </TouchableOpacity>
+                {/* <View style={{ marginBottom: 15 }}>
                     <Button title='Login' onPress={login} />
-                </View>
+                </View> */}
                 <View>
-                    <Text onPress={() => { navigation.navigate('Register') }} style={{ textAlign: 'right', color: '#2196f3' }}>Don't have an account? Sign up</Text>
+                    <Text onPress={() => { navigation.navigate('Register') }} style={{ textAlign: 'right', color: '#D61C4E' }}>Don't have an account? Sign up</Text>
                 </View>
             </View>
             <StatusBar style="auto" />
