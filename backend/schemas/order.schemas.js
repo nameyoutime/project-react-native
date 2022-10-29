@@ -6,7 +6,7 @@ const OrderSchema = new Schema({
         quantity: { type: Number, default: 1 },
         _id: false
     }],
-    user: { type: Schema.Types.ObjectId, ref: 'User' },
+    user: { type: Schema.Types.ObjectId, ref: 'Auth' },
     total: { type: Number, default: 1 },
     status: { type: Number, default: 0 },
     timestamp: { type: Number, default: 0 }
