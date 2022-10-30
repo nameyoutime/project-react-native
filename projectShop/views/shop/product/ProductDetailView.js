@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Button, ScrollView, Image, Dimensions } from 'react-native'
+import { StyleSheet, Text, View, Button, ScrollView, Image, Dimensions, TouchableOpacity } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { useIsFocused } from '@react-navigation/native';
 import { Store } from '../../../store/store';
@@ -55,9 +55,9 @@ const ProductDetailView = (props) => {
     }
     const handleAdmin = () => {
         return (
-            <View style={{ marginVertical: 10 }}>
+            <View style={{ marginVertical: 90 }}>
 
-                <Text style={[style.label, { textAlign: 'center' }]}>Admin function</Text>
+                <Text style={[style.label, { textAlign: 'center', color: "#D61C4E" }]}>Admin function</Text>
                 <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
                     <Button title='Update' onPress={() => props.navigation.navigate('Update product', { product: product, categories: appCategories })} />
                     <Button color={'red'} title='Delete' onPress={handleDelete} />
@@ -90,46 +90,57 @@ const ProductDetailView = (props) => {
 
     return (
         <ScrollView>
-            <View style={{ width, height }}>
+                <View style={{ width, height }}>
 
-                <ScrollView scrollEventThrottle={5} onScroll={change} showsHorizontalScrollIndicator={false} pagingEnabled horizontal style={{ width, height }}>
-                    {
-                        product.images.map((item, index) => {
+                    <ScrollView scrollEventThrottle={5} onScroll={change} showsHorizontalScrollIndicator={false} pagingEnabled horizontal style={{ width, height }}>
+                        {
+                            product.images.map((item, index) => {
+                                return (
+                                    <Image key={index} style={{ width, height, resizeMode: 'cover' }} source={{ uri: item.url }} />
+                                )
+                            })
+                        }
+                    </ScrollView>
+                    <View style={{ flexDirection: 'row', position: 'absolute', bottom: 0, alignSelf: 'center' }}>
+                        {product.images.map((item, index) => {
                             return (
-                                <Image key={index} style={{ width, height, resizeMode: 'cover' }} source={{ uri: item.url }} />
+                                <Text key={index} style={index == active ? { color: '#fff', margin: 3 } : { color: '#888', margin: 3 }} >
+                                    ⬤
+                                </Text>
                             )
-                        })
-                    }
-                </ScrollView>
-                <View style={{ flexDirection: 'row', position: 'absolute', bottom: 0, alignSelf: 'center' }}>
-                    {product.images.map((item, index) => {
-                        return (
-                            <Text key={index} style={index == active ? { color: '#fff', margin: 3 } : { color: '#888', margin: 3 }} >
-                                ⬤
-                            </Text>
-                        )
-                    })}
+                        })}
+                    </View>
+                </View >
+
+
+                <View style={{ padding: 10, borderWidth: 1, borderRadius: 5, margin: 5, backgroundColor: "#1CD6CE" }}>
+
+                    <Text style={style.label}>Title: {product.title}</Text>
+                    <Text style={style.label}>Description: {product.description}</Text>
+                    <Text style={style.label}>Price: {product.price}</Text>
+                    <View style={{ display: 'flex', flexDirection: 'row' }}>
+                        <Text style={{ fontSize: 20, fontWeight: 'bold', color: "#D61C4E" }}>Category: </Text>
+                        {product.categories.map((cate, index) => {
+                            return (
+                                <Text key={index}> {cate.title}</Text>
+                            )
+                        })}
+                    </View>
+                    
+                    {/* <Button title='Buy' onPress={() => handleBuy()} /> */}
                 </View>
-
-
-
-            </View >
-            <View style={{ margin: 5 }}>
-
-                <Text style={style.label}>Title: {product.title}</Text>
-                <Text style={style.label}>Description: {product.description}</Text>
-                <Text style={style.label}>Price: {product.price}</Text>
-                <View style={{ display: 'flex', flexDirection: 'row' }}>
-                    <Text style={{ fontSize: 12, fontWeight: 'bold' }}>Category: </Text>
-                    {product.categories.map((cate, index) => {
-                        return (
-                            <Text key={index}> {cate.title}</Text>
-                        )
-                    })}
+                <View style={{  justifyContent: 'center', alignItems: 'center', }}>
+                    <TouchableOpacity style={{ backgroundColor: '#293462',  padding: 15, marginVertical: 15, width: 300, borderRadius: 5, }} >
+                        <Text style={{ color: '#eee', fontSize: 15, fontWeight: 'bold', textAlign: 'center' }} onPress={() => handleBuy()}>Add to cart</Text>
+                    </TouchableOpacity>
                 </View>
-                <Button title='Buy' onPress={() => handleBuy()} />
-            </View>
-            {profile.isAdmin ? (handleAdmin()) : null}
+                <View style={{  justifyContent: 'center', alignItems: 'center', }}>
+                    <TouchableOpacity style={{ backgroundColor: '#293462',  padding: 15, marginVertical: 15, width: 300, borderRadius: 5, }} >
+                        <Text style={{ color: '#eee', fontSize: 15, fontWeight: 'bold', textAlign: 'center' }} onPress={() => navigation.navigate("Home")}>Return home</Text>
+                    </TouchableOpacity>
+                </View>
+                    {profile.isAdmin ? (handleAdmin()) : null}
+            
         </ScrollView>
 
     )

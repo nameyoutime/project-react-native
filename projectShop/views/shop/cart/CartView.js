@@ -1,8 +1,9 @@
-import { StyleSheet, Text, View, Button, TextInput, ScrollView, Image } from 'react-native'
+import { StyleSheet, Text, View, Button, TextInput, ScrollView, Image, TouchableHighlight } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useIsFocused } from '@react-navigation/native'
 import asyncStorage from '../../../api/asynStorage';
 import styles from '../../../styles/mainStyle';
+import { Entypo, Ionicons } from '@expo/vector-icons'
 
 const CartView = (props) => {
     const focus = useIsFocused();
@@ -97,21 +98,37 @@ const CartView = (props) => {
                                     opacity: 0.5,
                                     borderBottomColor: 'black',
                                     borderBottomWidth: 1,
+                                    width: 350
                                 }}
                             />
                             <View style={styles.item}>
-                                <Text onPress={() => handleDelete(index)} style={{ fontSize: 10, textAlign: 'center', borderRadius: 100, backgroundColor: 'red', color: 'black', fontWeight: 'bold', borderWidth: 1, width: 20, height: 20, position: 'absolute', top: 0, right: 5 }}>X</Text>
+                               
+                               
+                                {/* <Text onPress={() => handleDelete(index)} style={{ fontSize: 10, textAlign: 'center', borderRadius: 100, backgroundColor: 'red', color: 'black', fontWeight: 'bold', borderWidth: 1, width: 20, height: 20, position: 'absolute', top: 0, right: 5 }}>X</Text> */}
                                 <View style={{ display: 'flex', flexDirection: "row" }}>
 
+                                    
+
                                     <Image source={{ uri: item.product.images[0].url }} style={{ width: 100, height: 100, borderRadius: 10 }} />
-                                    <View style={{ paddingHorizontal: 5 }}>
+                                    <View style={{ paddingHorizontal: 20 }}>
                                         <Text style={styles.title}>{item.product.title}</Text>
                                         <View style={{ display: 'flex', flexDirection: 'row' }}>
-                                            <Button title='+' onPress={() => handleIncrease(index)} />
-                                            <TextInput style={{ backgroundColor: '#eee', textAlign: 'center', width: 30 }} onChangeText={(text) => handleChangeText(text, index)} value={item.quantity} />
-                                            <Button title='-' onPress={() => handleDecrease(index)} />
+                                            <Entypo size={30}  name="squared-minus" color="#293462" onPress={() => handleDecrease(index)}></Entypo>
+                                            <TextInput
+                                            underlineColorAndroid='transparent'
+                                            style={{ textAlign: 'center', fontSize: 20, width: 25, outlineStyle: 'none' }}
+                                            keyboardType='numeric'
+                                            onChangeText={(text) => handleChangeText(text, index)} value={item.quantity}
+                                            editable={false}
+                                            />
+                                            <Entypo size={30}  name="squared-plus" color="#293462" onPress={() => handleIncrease(index)}></Entypo>
                                         </View>
                                         <Text style={styles.description}>Total: {item.product.price * item.quantity} VND</Text>
+                                    </View>
+                                    <View style={{ alignItems: 'center', justifyContent: 'center', paddingLeft: 20 }}>
+                                        <TouchableHighlight>
+                                            <Ionicons color="#D61C4E" size={30} name="ios-remove-circle-outline" onPress={() => handleDelete(index)}/>
+                                        </TouchableHighlight>
                                     </View>
                                 </View>
 
@@ -130,13 +147,10 @@ const CartView = (props) => {
                 )}
 
             </ScrollView>
-            <View>
-                <Text style={styles.title}>Total</Text>
-
-
-                <Text style={styles.description}>{handleTotal()} VND</Text>
-                {cartItems.length > 0 && <Button title='Checkout' onPress={() => handleCheckout()} />}
-
+            <View style={{display: 'flex', flexDirection: "row", alignItems: 'center', justifyContent: 'center', marginBottom: 50}}>
+                {/* <Text style={styles.title}>Total</Text> */}
+                <Text style={{  fontSize: 20, color : "#D61C4E", fontWeight: "bold", paddingRight: 10}}> Total {handleTotal()} VND</Text>
+                {cartItems.length > 0 && <Entypo size={40} name='paper-plane' color="#1CD6CE" title='Checkout'  onPress={() => handleCheckout()} />}
             </View>
         </View>
     )

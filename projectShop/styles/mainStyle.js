@@ -19,8 +19,9 @@ export default StyleSheet.create({
         borderRadius: 5,
     },
     label: {
-        // fontSize: 15,
+        fontSize: 20,
         fontWeight: 'bold',
+        color: "#FFF"
         // margin: 10,
     },
     picker: {
@@ -78,7 +79,7 @@ export default StyleSheet.create({
         borderRadius: 12,
     },
     item: {
-        padding: 20,
+        padding: 10,
         marginVertical: 8
     },
     header: {
@@ -90,7 +91,10 @@ export default StyleSheet.create({
         color: "#E78D7E"
     },
     description: {
-        marginTop: 5
+        marginTop: 5,
+        fontSize: 20,
+        color : "#D61C4E",
+        fontWeight: "bold",
     },
     dot: {
         fontWeight: "bold",
