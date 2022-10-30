@@ -43,22 +43,29 @@ const LoginView = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <View style={{ width: 60, height: 60, borderRadius: 30, backgroundColor: "#293462", justifyContent: 'center', alignItems: 'center' }}>
-                <Icon name='user' color='#eee' size={36} />
+            <View style={{ width: 80, height: 80, borderRadius: 40, backgroundColor: "#293462", justifyContent: 'center', alignItems: 'center' }}>
+                <Icon name='shopping-bag' color='#eee' size={40} />
             </View>
-            <Text style={{ color: '#D61C4E', fontSize: 30, marginVertical: 15 }}>Sign in</Text>
+            <Text style={{ color: '#D61C4E', fontSize: 25, marginVertical: 15, fontWeight: "bold" }}>Welcome back.</Text>
             <View>
-                <TextInput placeholder="Username" onChangeText={(text) => setUserName(text)} style={{ padding: 10, borderWidth: 1, borderColor: '#293462', width: 300, borderRadius: 5 }} />
-                <TextInput secureTextEntry={true} placeholder="Password" onChangeText={(text) => setPassword(text)} style={{ marginVertical: 15, padding: 10, borderWidth: 1, borderColor: '#293462', width: 300, borderRadius: 5 }} />
+                <View style={{alignItems: "center", justifyContent: "center"}}>
+                    <TextInput placeholder="Username" onChangeText={(text) => setUserName(text)} style={{ padding: 10, borderColor: '#293462', width: 250, borderRadius: 3,  backgroundColor: "#FFF", shadowColor: '#171717', shadowOffset: {width: -2, height: 4}, shadowOpacity: 0.2, shadowRadius: 3, }} />
+                    <TextInput secureTextEntry={true} placeholder="Password" onChangeText={(text) => setPassword(text)} style={{ marginVertical: 23, padding: 10,  borderColor: '#293462', width: 250, borderRadius: 3, backgroundColor: "#FFF", shadowOffset: {width: -2, height: 4}, shadowOpacity: 0.2, shadowRadius: 3, }} />
+                </View>
+                
                 <Text style={{color:'red',fontWeight:'bold',textAlign:'center'}}>{error}</Text>
-                <TouchableOpacity style={{ backgroundColor: '#1CD6CE',  padding: 15, marginVertical: 15, width: 300, borderRadius: 10 }} onPress={()=>{console.log('button is clicked!')}} >
-                    <Text style={{ color: '#eee', fontSize: 15, fontWeight: 'bold', textAlign: 'center' }} onPress={login}>Log In</Text>
-                </TouchableOpacity>
+
+                <View style={{alignItems: "center", justifyContent: "center"}}>
+                    <TouchableOpacity style={{ backgroundColor: '#1CD6CE',  padding: 15, marginTop: 20, marginBottom: 10, width: 250, borderRadius: 5, shadowOffset: {width: -2, height: 4}, shadowOpacity: 0.2, shadowRadius: 3, }} onPress={()=>{console.log('button is clicked!')}} >
+                        <Text style={{ color: '#eee', fontSize: 18, fontWeight: 'bold', textAlign: 'center',  }} onPress={login}>Log In</Text>
+                    </TouchableOpacity>
+                </View>
+                
                 {/* <View style={{ marginBottom: 15 }}>
                     <Button title='Login' onPress={login} />
                 </View> */}
                 <View>
-                    <Text onPress={() => { navigation.navigate('Register') }} style={{ textAlign: 'right', color: '#D61C4E' }}>Don't have an account? Sign up</Text>
+                    <Text  style={{ textAlign: 'center', color: '#293462', fontSize: 15, fontWeight: "500" }}>Don't have an account? <Text style={{fontWeight: "bold", color: "#D61C4E"}} onPress={() => { navigation.navigate('Register') }}> Sign up </Text></Text>
                 </View>
             </View>
             <StatusBar style="auto" />

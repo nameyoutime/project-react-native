@@ -39,22 +39,24 @@ const RegisterView = ({ navigation }) => {
     }
     return (
         <View style={styles.container}>
-            <View style={{ width: 60, height: 60, borderRadius: 30, backgroundColor: "#293462", justifyContent: 'center', alignItems: 'center' }}>
-                <Icon name='user-plus' color='#eee' size={36} />
+            <View style={{ width: 80, height: 80, borderRadius: 40, backgroundColor: "#293462", justifyContent: 'center', alignItems: 'center' }}>
+                <Icon name='user-plus' color='#eee' size={40} />
             </View>
-            <Text style={{ color: '#D61C4E', fontSize: 30, marginVertical: 15 }}>Register</Text>
-            <View>
-                <TextInput  placeholder="User name" onChangeText={(text) => setUserName(text)} style={{ marginVertical: 15, padding: 12, borderWidth: 1, margin: 12, borderColor: '#293462', width: 300, borderRadius: 5 }} />
-                <TextInput secureTextEntry={true} placeholder="Password" onChangeText={(text) => setPassword(text)}  style={{ marginVertical: 15, padding: 12, borderWidth: 1, margin: 12, borderColor: '#293462', width: 300, borderRadius: 5 }} />
-                <TextInput secureTextEntry={true} placeholder="Verify Password" onChangeText={(text) => setVerifyPassword(text)}  style={{ marginVertical: 15, padding: 12, borderWidth: 1, margin: 12, borderColor: '#293462', width: 300, borderRadius: 5 }} />
+            <Text style={{ color: '#D61C4E', fontSize: 30, marginVertical: 15, fontWeight: "500" }}>Create user</Text>
+            <View style={{alignItems: "center", justifyContent:"center"}}>
+                <TextInput  placeholder="User name" onChangeText={(text) => setUserName(text)} style={{ padding: 10, borderColor: '#293462', width: 280, borderRadius: 3,  backgroundColor: "#FFF", shadowColor: '#171717', shadowOffset: {width: -2, height: 4}, shadowOpacity: 0.2, shadowRadius: 3, }} />
+                <TextInput secureTextEntry={true} placeholder="Password" onChangeText={(text) => setPassword(text)}  style={{ marginVertical: 20, padding: 10, borderColor: '#293462', width: 280, borderRadius: 3,  backgroundColor: "#FFF", shadowColor: '#171717', shadowOffset: {width: -2, height: 4}, shadowOpacity: 0.2, shadowRadius: 3, }} />
+                <TextInput secureTextEntry={true} placeholder="Verify Password" onChangeText={(text) => setVerifyPassword(text)}  style={{ padding: 10, borderColor: '#293462', width: 280, borderRadius: 3,  backgroundColor: "#FFF", shadowColor: '#171717', shadowOffset: {width: -2, height: 4}, shadowOpacity: 0.2, shadowRadius: 3, }} />
                 <Text style={{color:'red',fontWeight:'bold',textAlign:'center'}}>{error}</Text>
-                <TouchableOpacity style={{ backgroundColor: '#1CD6CE',  padding: 15, marginLeft: 13, marginVertical: 15, width: 300, borderRadius: 5, }} onPress={()=>{console.log('button is clicked!')}}>
-                    <Text style={{ color: '#eee', fontSize: 15, fontWeight: 'bold', textAlign: 'center' }} onPress={haddleRegister}>Register</Text>
+                <TouchableOpacity style={{ backgroundColor: '#1CD6CE',  padding: 15, marginTop: 30, width: 280, borderRadius: 5, shadowColor: '#171717', shadowOffset: {width: -2, height: 4}, shadowOpacity: 0.2, shadowRadius: 3  }} onPress={()=>{console.log('button is clicked!')}}>
+                    <Text style={{ color: '#eee', fontSize: 15, fontWeight: 'bold', textAlign: 'center' }} onPress={haddleRegister}>SIGN UP</Text>
                 </TouchableOpacity>
                 {/* <View style={{ marginBottom: 15 }}>
                     <Button title="Register" onPress={haddleRegister}  />
                 </View> */}
-                <Text style={{ textAlign: 'right', color: '#D61C4E' }} onPress={() => navigation.navigate('Login')}>Already have an account? Login now</Text>
+                <View style={{marginTop: 20}}>
+                    <Text style={{ color: '#293462', fontSize: 15, fontWeight: "500" }}>Already have an account? <Text style={{ color: '#D61C4E', fontWeight:"bold"}} onPress={() => navigation.navigate('Login')}>Login now</Text> </Text>
+                </View>
             </View>
             <StatusBar style="auto" />
         </View>
