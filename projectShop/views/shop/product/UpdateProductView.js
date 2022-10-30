@@ -132,16 +132,16 @@ const UpdateProductView = (props) => {
         <ScrollView style={{ backgroundColor: '#fff' }}>
             {/* <Text>UpdateProductView</Text> */}
             <View style={styles.container}>
-                <Text style={styles.label}>Title</Text>
+                <Text style={[styles.label,{color:'black'}]}>Title</Text>
                 <TextInput style={[styles.texInput, { marginVertical: 5 }]} value={product.title} onChangeText={(text) => setProduct({ ...product, title: text })} />
                 
-                <Text style={styles.label}>Description</Text>
+                <Text style={[styles.label,{color:'black'}]}>Description</Text>
                 <TextInput style={[styles.texInput, { marginVertical: 5 }]} value={product.description} onChangeText={(text) => setProduct({ ...product, description: text })} />
-                <Text style={styles.label}>Price</Text>
+                <Text style={[styles.label,{color:'black'}]}>Price</Text>
                 
                 <TextInput style={[styles.texInput, { marginVertical: 5 }]} value={product.price} onChangeText={(text) => setProduct({ ...product, price: text })} />
                 
-                <Text style={styles.label}>Quantity</Text>
+                <Text style={[styles.label,{color:'black'}]}>Quantity</Text>
                 <TextInput style={[styles.texInput, { marginVertical: 5 }]} value={product.quantity} onChangeText={(text) => setProduct({ ...product, quantity: text })} />
             </View>
 
@@ -176,7 +176,7 @@ const UpdateProductView = (props) => {
 
                                 <View style={{ display: 'flex', flexDirection: 'row', }}>
                                     <View style={{ marginVertical: 3, borderColor: 'black', borderTopLeftRadius: 10, borderBottomLeftRadius: 10, borderWidth: 1, padding: 3 }}>
-                                        <Text style={styles.label}>{item.title}</Text>
+                                        <Text style={[styles.label,{color:'black'}]}>{item.title}</Text>
                                     </View>
                                     {/* <Button title='X'  /> */}
 

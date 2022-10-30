@@ -1,4 +1,4 @@
-import { View, Text, Button, TextInput, TouchableOpacity } from 'react-native'
+import { View, Text, Button, TextInput, TouchableOpacity, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import asyncStorage from '../../api/asynStorage.js';
@@ -66,7 +66,10 @@ const ProfileView = (props) => {
                     console.log(result.data.error);
                 } else {
                     let user = await asyncStorage.get('user');
-                    let temp = { ...user, user: result.data.data };
+                    let profile = await userApi.getUser(user._id);
+                    // console.log(profile)
+                    let temp = { ...user, user: profile.data.data.user  };
+                    // console.log(temp);
                     await asyncStorage.set('user', temp);
                     props.navigation.navigate('Home');
                 }
@@ -78,33 +81,36 @@ const ProfileView = (props) => {
     }
     const renderUser = () => {
         return (
-            <>
-                <View style={styles.avatar}>
-                    <Icon name='user' color='#eee' size={70} />
+            <ScrollView showsHorizontalScrollIndicator={false}>
+                <View style={styles.container}>
+
+                    <View style={styles.avatar}>
+                        <Icon name='user' color='#eee' size={70} />
+                    </View>
+                    <Text style={styles.userName}>{user.userName}</Text>
+                    <View >
+                        <Text style={styles.label}>Name</Text>
+                        <TextInput style={styles.texInput} placeholder='name' defaultValue={profile.name} onChangeText={(e) => setProfile({ ...profile, name: e })} />
+                        <Text style={styles.label}>Address</Text>
+                        <TextInput style={styles.texInput} placeholder='address' defaultValue={profile.address} onChangeText={(e) => setProfile({ ...profile, address: e })} />
+                        <Text style={styles.label}>Email</Text>
+                        <TextInput style={styles.texInput} placeholder='email' defaultValue={profile.email} onChangeText={(e) => setProfile({ ...profile, email: e })} />
+                        <Text style={styles.label}>Phone</Text>
+                        <TextInput style={styles.texInput} keyboardType='numeric' placeholder='phone' defaultValue={profile.phone} onChangeText={(e) => setProfile({ ...profile, phone: e })} />
+                    </View>
+                    <View style={styles.buttonContainer}>
+                        <TouchableOpacity style={[styles.button, styles.button1]} onPress={handdleUpdate}>
+                            <Text style={styles.btnTextblack}> UPDATE PROFILE </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={[styles.button, styles.button2]} onPress={() => { props.navigation.navigate('Order history', { userId: user._id, isAdmin: profile.isAdmin }) }}>
+                            <Text style={styles.btnTextblack}> ORDER HISTORY </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={[styles.button, styles.button3]} onPress={handdleLogout} >
+                            <Text style={styles.btnTextwhite}> LOGOUT </Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-                <Text style={styles.userName}>{user.userName}</Text>
-                <View >
-                    <Text style={styles.label}>Name</Text>
-                    <TextInput style={styles.texInput} placeholder='name' defaultValue={profile.name} onChangeText={(e) => setProfile({ ...profile, name: e })} />
-                    <Text style={styles.label}>Address</Text>
-                    <TextInput style={styles.texInput} placeholder='address' defaultValue={profile.address} onChangeText={(e) => setProfile({ ...profile, address: e })} />
-                    <Text style={styles.label}>Email</Text>
-                    <TextInput style={styles.texInput} placeholder='email' defaultValue={profile.email} onChangeText={(e) => setProfile({ ...profile, email: e })} />
-                    <Text style={styles.label}>Phone</Text>
-                    <TextInput style={styles.texInput} keyboardType='numeric' placeholder='phone' defaultValue={profile.phone} onChangeText={(e) => setProfile({ ...profile, phone: e })} />
-                </View>
-                <View style={styles.buttonContainer}>
-                    <TouchableOpacity style={[styles.button, styles.button1]} onPress={handdleUpdate}>  
-                        <Text style={styles.btnTextblack}> UPDATE PROFILE </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={[styles.button, styles.button2]} onPress={()=>{props.navigation.navigate('Order history', { userId: user._id, isAdmin: profile.isAdmin })}}>  
-                        <Text style={styles.btnTextblack}> ORDER HISTORY </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={[styles.button, styles.button3]} onPress={handdleLogout} > 
-                        <Text style={styles.btnTextwhite}> LOGOUT </Text>
-                    </TouchableOpacity>
-                </View>
-            </>
+            </ScrollView>
         )
     }
 

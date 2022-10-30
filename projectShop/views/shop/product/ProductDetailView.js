@@ -122,7 +122,7 @@ const ProductDetailView = (props) => {
                         <Text style={{ fontSize: 20, fontWeight: 'bold', color: "#D61C4E" }}>Category: </Text>
                         {product.categories.map((cate, index) => {
                             return (
-                                <Text key={index}> {cate.title}</Text>
+                                <Text key={index} style={style.label}> {cate.title}</Text>
                             )
                         })}
                     </View>
