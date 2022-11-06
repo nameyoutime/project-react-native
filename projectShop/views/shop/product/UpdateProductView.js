@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TextInput, Button, Image, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, TextInput, Button, Image, ScrollView, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import { MultiSelect } from 'react-native-element-dropdown';
 import * as Imagepicker from 'expo-image-picker';
@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux';
 import { setAllProduct, updatedProduct } from '../../../actions/productAction';
 import { Platform } from 'react-native';
 import { ImagePicker } from 'expo-image-multiple-picker'
-import styles from '../../../styles/mainStyle';
+import styles from '../../../styles/updateproductStyle.js';
 
 
 
@@ -131,20 +131,23 @@ const UpdateProductView = (props) => {
     return (
         <ScrollView style={{ backgroundColor: '#fff' }}>
             {/* <Text>UpdateProductView</Text> */}
-            <View style={styles.container}>
-                <Text style={[styles.label,{color:'black'}]}>Title</Text>
-                <TextInput style={[styles.texInput, { marginVertical: 5 }]} value={product.title} onChangeText={(text) => setProduct({ ...product, title: text })} />
-                
-                <Text style={[styles.label,{color:'black'}]}>Description</Text>
-                <TextInput style={[styles.texInput, { marginVertical: 5 }]} value={product.description} onChangeText={(text) => setProduct({ ...product, description: text })} />
-                <Text style={[styles.label,{color:'black'}]}>Price</Text>
-                
-                <TextInput style={[styles.texInput, { marginVertical: 5 }]} value={product.price} onChangeText={(text) => setProduct({ ...product, price: text })} />
-                
-                <Text style={[styles.label,{color:'black'}]}>Quantity</Text>
-                <TextInput style={[styles.texInput, { marginVertical: 5 }]} value={product.quantity} onChangeText={(text) => setProduct({ ...product, quantity: text })} />
-            </View>
 
+            <View style={styles.container}>
+                <View>
+                    <Text style={styles.title}>Admin's function: Update product</Text>
+                </View>
+                <View>
+                    <Text style={styles.label}>Title</Text>
+                    <TextInput style={styles.texInput} value={product.title} onChangeText={(text) => setProduct({ ...product, title: text })} />
+                    <Text style={styles.label}>Description</Text>
+                    <TextInput style={styles.texInput} value={product.description} onChangeText={(text) => setProduct({ ...product, description: text })} />
+                    <Text style={styles.label}>Price</Text>
+                    <TextInput style={styles.texInput} value={product.price} onChangeText={(text) => setProduct({ ...product, price: text })} />
+                    <Text style={styles.label}>Quantity</Text>
+                    <TextInput style={styles.texInput} value={product.quantity} onChangeText={(text) => setProduct({ ...product, quantity: text })} />
+                </View>
+
+            </View>
 
             <MultiSelect
                 style={styles.dropdown}
@@ -159,27 +162,20 @@ const UpdateProductView = (props) => {
                 placeholder="Select categories"
                 searchPlaceholder="Search..."
                 value={selectedCate}
-                onChange={item => {
-                    handleCheckCate(item)
-                }}
-                renderSelectedItem={(item) => (
-                    <></>
-                )}
+                onChange={item => { handleCheckCate(item) }}
+                renderSelectedItem={(item) => (<></>)}
                 selectedStyle={styles.selectedStyle}
             />
             <View>
-
                 <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
                     {productCate.map((item, index) => {
                         return (
                             <View key={index} >
-
                                 <View style={{ display: 'flex', flexDirection: 'row', }}>
                                     <View style={{ marginVertical: 3, borderColor: 'black', borderTopLeftRadius: 10, borderBottomLeftRadius: 10, borderWidth: 1, padding: 3 }}>
-                                        <Text style={[styles.label,{color:'black'}]}>{item.title}</Text>
+                                        <Text style={[styles.label, { color: 'black' }]}>{item.title}</Text>
                                     </View>
                                     {/* <Button title='X'  /> */}
-
                                     <Text onPress={() => {
                                         let temp = productCate.filter((v) => v._id !== item._id)
                                         setProductCate(temp);
@@ -188,7 +184,6 @@ const UpdateProductView = (props) => {
                             </View>
                         )
                     })}
-
                 </View>
             </View>
             <Text style={styles.label}>Images</Text>
@@ -250,15 +245,25 @@ const UpdateProductView = (props) => {
                     </View>
                 )
             })} */}
-            {(platfrom == 'web') ? (<Button
-                title="pickImage"
-                onPress={pickImage}
-            />) : (
-                <>
-                    <Button title='pick Image' onPress={() => setOpen(true)} />
-                </>
-            )}
-            <Button title='Update' onPress={handdleUpdate} />
+            <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginVertical: 5 }}>
+                {(platfrom == 'web') ? (
+                    <TouchableOpacity style={styles.texInput} onPress={pickImage}>
+                        <Text style={{ color: 'white', fontSize: 16 }}>Pick Image</Text>
+                    </TouchableOpacity>) : (
+                    <>
+                        <TouchableOpacity style={styles.texInput} onPress={() => setOpen(true)}>
+                            <Text style={{ color: 'white', fontSize: 16 }}>Pick Image</Text>
+                        </TouchableOpacity>
+                    </>
+                )}
+            </View>
+            <View style={styles.buttonContainer}>
+                <TouchableOpacity style={[styles.button, styles.button1]} onPress={handdleUpdate}>
+                    <Text style={styles.btnTextblack}> Update </Text>
+                </TouchableOpacity>
+            </View>
+
+            
         </ScrollView>
     )
 }
