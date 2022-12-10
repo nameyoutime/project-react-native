@@ -9,7 +9,7 @@ const Stack = createStackNavigator();
 
 const AuthLayout = () => {
     return (
-
+    // Cái route đầu tiên nó sẽ chạy là loadingScreenView, tức là khi load vào ứng dụng cái trang này sẽ chạy đầu tiên
         <Stack.Navigator initialRouteName="Loading"
             screenOptions={{
                 headerShown: false

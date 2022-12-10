@@ -10,7 +10,7 @@ export default function App() {
     <NavigationContainer>
 
       <Provider store={Store}>
-        {/* <TagManagementView /> */}
+      {/* Đầu tiên nó sẽ chạy vào auth layout để check người dùng có đăng nhập chưa nếu đăng nhập rồi thì sẽ chuyển trược tiếp tới trang chính */}
         <AuthLayout />
       </Provider>
     </NavigationContainer>

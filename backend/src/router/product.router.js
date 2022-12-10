@@ -34,13 +34,9 @@ router.get('/', async (req, res) => {
         }
         if (config.category == 'all') {
             data = await ProductDB.find().populate('categories').sort(config.sort).limit(config.limit).skip(config.skip*config.limit);
-            // setTimeout(() => {
-            //     console.log("test")
-            // }, 5000);
         } else {
             let objectid = { categories: mongoose.Types.ObjectId(config.category) };
             data = await ProductDB.find(objectid).populate('categories').sort(config.sort).limit(config.limit).skip(config.skip*config.limit);
-            // console.log(data);
         }
 
         res.send({ data: data })
@@ -51,11 +47,8 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
     let { product } = req.body;
-    // console.log(product)
 
     try {
-        // check if product exist or not in db
-        // console.log(product.title)
         let check = await ProductDB.findOne({ title: product.title });
 
         if (check) {

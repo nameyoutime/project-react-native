@@ -31,38 +31,38 @@ const CreateProductView = (props) => {
     const [platfrom, setPlatfrom] = useState(Platform.OS);
     const [open, setOpen] = useState(false);
     const focus = useIsFocused();
+    // chạy khi nào người dùng nhìn vào màn hình
     useEffect(() => {
         if (focus) {
+            // lấy categories từ redux
             let state = Store.getState();
             let categories = state.cate.categories;
             if (categories) setCateState(categories);
-            console.log(categories);
-            console.log('CreateProductView');
         }
     }, [focus])
 
 
-
+    // chạy khi bấm pick image
     const pickImage = async () => {
+        // đầu tiên nó sẽ chọn hình và sẽ ra kết ảu vị trí của hình
         let result = await Imagepicker.launchImageLibraryAsync({
             mediaTypes: Imagepicker.MediaTypeOptions.Images,
             allowsMultipleSelection: true,
             // allowsEditing: true,
             quality: 0.5,
         });
-        // console.log(result);
         if (!result.cancelled) {
-            // console.log(result.selected)
             let temp = [];
+            // làm một cái mản rổng và cho vào tất cả hình ảnh đã chọn
             for (let i = 0; i < result.selected.length; i++) {
                 const element = result.selected[i];
                 temp = [...temp, element.uri];
             }
-            // console.log(temp);
             setSelectedimages(temp);
         }
     };
 
+    // khi chọn ở điện thoại
     const pickImage2 = async (assets) => {
         let temp = [];
         for (let i = 0; i < assets.length; i++) {
@@ -73,6 +73,7 @@ const CreateProductView = (props) => {
         setSelectedimages(temp);
 
     }
+    // nó sẽ lấy id mới của firebase và sẽ cho vào stroage với tên id mới
     const uploadImage = async (image) => {
         try {
             let id = firebase.firestore().collection('name').doc().id;
@@ -80,6 +81,7 @@ const CreateProductView = (props) => {
             const blob = await response.blob();
             let ref = firebase.storage().ref().child("images/" + id);
             let upload = await ref.put(blob);
+            // tải url của id đã tạo
             let url = await ref.getDownloadURL();
             return { id: id, url: url };
 
@@ -88,44 +90,38 @@ const CreateProductView = (props) => {
         }
     }
 
+    // khi tạo product mới
     const handleNewProduct = async () => {
+        // check sem image có rõng hay không nếu không thì mới bắt đầu tạo
         let selectedImagesLength = selectedimages.length;
         if (selectedImagesLength != 0 && selectedCate.length != 0) {
             let newProduct = product;
             let imagesUrl = [];
+            // tạo image và upload nó để có uri bỏ vào server
             for (let i = 0; i < selectedImagesLength; i++) {
                 let url = await uploadImage(selectedimages[i]);
                 imagesUrl = [...imagesUrl, url]
             }
-
             newProduct.images = imagesUrl;
-
             let res = await productApi.create({ product: newProduct });
-            // console.log(res.data.data)
+
             if (!res.data.error) {
+                // set product = null để có thể load lại dữ liệu khi vào lại trang home
                 dispatch(setAllProduct(null));
                 props.navigation.goBack();
             }
-            // console.log(res);
-
         }
 
     }
 
-    const handdlePickImage = () => {
-
-    }
-    // console.log(open)
     if (open) {
         return (
             <ImagePicker
                 onSave={(assets) => {
-                    // doWhatEverWithTheAssets(assets)
                     pickImage2(assets);
                     setOpen(false)
                 }}
                 onCancel={() => {
-                    // doWhatEverWhenYourUserSucks()
                     setOpen(false)
                 }}
                 multiple={true}
@@ -144,11 +140,6 @@ const CreateProductView = (props) => {
     return (
         <View style={{ backgroundColor: '#fff' }}>
             <View>
-
-                {/* 
-                <View>
-                    <Text style={styles.title}>Admin's function: Create product</Text>
-                </View> */}
                 <View style={[{ height: 600 }]}>
                     <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 
@@ -209,21 +200,6 @@ const CreateProductView = (props) => {
                     </TouchableOpacity>
                 </View>
                 </View>
-                {/* <ScrollView horizontal={true}>
-                        {selectedimages.map((item, index) => {
-                            return (
-                                <View key={index} style={{ marginLeft: 5 }}>
-                                    <Image source={{ uri: item }} style={{ width: 100, height: 100 }} />
-                                    <Text onPress={() => {
-                                        let temp = selectedimages.filter((v) => v !== item)
-                                        setSelectedimages(temp);
-                                    }} style={{ fontSize: 10, textAlign: 'center', borderRadius: 100, backgroundColor: 'red', color: 'black', fontWeight: 'bold', borderWidth: 1, width: 20, height: 20, position: 'absolute', top: 0, right: 0 }}>X</Text>
-                                </View>
-                            )
-                        })}
-                    </ScrollView> */}
-
-
             </View>
 
 

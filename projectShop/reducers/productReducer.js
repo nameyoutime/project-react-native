@@ -26,39 +26,10 @@ const cateReducer = (state = initialState, action) => {
                     return product;
                 })]
             };
-        // case UPDATE_CATE:
-        //     console.log({
-        //         products: state.products.map((item) => {
-        //             if (item._id == action.payload._id) {
-        //                 return action.payload;
-        //             } else {
-        //                 return item;
-        //             }
-        //         })
-        //     })
-        //     return {
-        //         products: state.products.map((item) => {
-        //             if (item._id == action.payload._id) {
-        //                 return action.payload;
-        //             } else {
-        //                 return item;
-        //             }
-        //         })
-        //     }
         case DELETE_PRODUCT:
-            // console.log(console.log(action.payload))
             return {
                 products: [...state.products.filter((c) => (c._id != action.payload.id))]
             };
-
-        // case DELETE_CATE:
-        //     console.log({
-        //         products: state.products.filter((item) => item._id != action.payload._id)
-        //     })
-        //     return {
-        //         products: state.products.filter((item) => item._id != action.payload._id)
-        //     }
-
         default:
             return { ...state };
     }

@@ -26,16 +26,6 @@ const userApi = {
         console.log(url);
         return axios.put(url, params);
     },
-    // getAll: (params) => {
-    //     const url = '/todos';
-    //     return axiosClient.get(url, { params });
-    // },
-
-    test: () => {
-        const url = '/test';
-        return axios.get(url);
-    }
-
 
 }
 export default userApi;

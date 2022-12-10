@@ -6,7 +6,6 @@ const UserSchema = new Schema({
     address: { type: String, default: "" },
     email: { type: String, default: "" },
     isAdmin: { type: Boolean, default: false },
-    // authId: { type: Schema.Types.ObjectId, ref: 'Auth' },
 });
 
 module.exports = UserSchema;

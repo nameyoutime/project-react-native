@@ -35,7 +35,7 @@ const ProductDetailView = (props) => {
     }, [focus])
 
     const handleDelete = async () => {
-        // console.log(product.images)
+        // tìm kiếm product để xóa hình ảnh ở firebase và delete ở mongo cái product đó
         for (let i = 0; i < product.images.length; i++) {
             const element = product.images[i];
             await deleteImage(element.id)
@@ -43,6 +43,7 @@ const ProductDetailView = (props) => {
         }
         let respone = await productApi.delete(product._id);
         dispatch(setAllProduct(null));
+        //delete thành công sẽ điều hướng về home
         props.navigation.navigate('Main shop');
 
     }
@@ -63,10 +64,6 @@ const ProductDetailView = (props) => {
                     <Button color={'red'} title='Delete' onPress={handleDelete} />
                 </View>
             </View>
-            // <View>
-            //     <Button title='Update' onPress={() => props.navigation.navigate('Update product', { product: product, categories: appCategories })} />
-            //     <Button title='Delete' onPress={handleDelete} />
-            // </View>
 
         )
     }

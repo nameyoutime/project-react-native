@@ -11,7 +11,7 @@ import styles from '../../styles/navbarStyle.js';
 const Tab = createBottomTabNavigator();
 const HomeLayoutView = (props) => {
     const navigation = useNavigation();
-
+    // không cho user back về
     useEffect(() => {
         const backHandler = BackHandler.addEventListener('hardwareBackPress', () => true)
         return () => backHandler.remove()
@@ -21,8 +21,6 @@ const HomeLayoutView = (props) => {
         <Tab.Navigator 
             initialRouteName='Shop'
             screenOptions={{ tabBarShowLabel: false, tabBarStyle: {
-                    // position:'absolute',
-                    // backgroundColor: '#CECECE',
                     backgroundColor: '#333',
                     borderTopColor: 'transparent',
                     height: 60,
@@ -30,7 +28,7 @@ const HomeLayoutView = (props) => {
                     borderTopRightRadius: 15,
                     }
             }}>
-            
+            {/* bottom tab styling */}
             <Tab.Screen name="Profile" component={ProfileLayoutView} options={{
                     tabBarIcon: ({ focused }) => (
                         <View onPress={() => { navigation.navigate('Profile') }} style={styles.icon}>
@@ -51,17 +49,8 @@ const HomeLayoutView = (props) => {
                             {focused ?(<Icon  name='shopping-cart' color='white' size={40} />):(<Icon  name='shopping-cart' color='grey' size={40} />)}
                         </View>
                     ),
-                    // headerTitle: (props) =>
-                    //     <>
-                    //         <Text onPress={() => { navigation.navigate('Cart') }}>
-                    //             Cart
-                    //         </Text>
-
-                    //     </>
                 }
             } />
-            {/* <Stack.Screen name="Cart view" component={CartView} />
-            <Stack.Screen name="Checkout" component={CheckOutView} /> */}
 
         </Tab.Navigator>
     )

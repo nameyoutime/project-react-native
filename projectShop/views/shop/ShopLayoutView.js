@@ -12,6 +12,7 @@ import SearchView from './SearchView';
 
 const Stack = createStackNavigator();
 const ShopLayoutView = () => {
+    // đây là điều hướng chỉnh của ứng dụng nó sẽ cho chạy vào shopView đầu tiên là mainshop
     return (
         <Stack.Navigator initialRouteName="Main shop" screenOptions={{
             headerShown: false

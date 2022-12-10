@@ -26,11 +26,6 @@ const productApi = {
         const url = `${mainUrl}/search?keyword=${keyword}`;
         return axios.get(url);
     },
-    test: () => {
-        const url = '/test';
-        return axios.get(url);
-    }
-
 
 }
 export default productApi;

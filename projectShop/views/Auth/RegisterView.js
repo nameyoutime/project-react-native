@@ -11,22 +11,20 @@ const RegisterView = ({ navigation }) => {
     const [verifyPassword, setVerifyPassword] = useState('');
     const [error, setError] = useState('');
     const haddleRegister = async () => {
-        // check if vertifypassword is equal to password
+        // kiểm tra xem nếu password có bằng với nhau
         if (password === verifyPassword) {
-            // register with userApi
+            // gọi api register
             try {
                 let result = await userApi.register({
                     userName: userName,
                     password: password
                 })
-                console.log(result.data);
+                // nếu có error thì hiện lên nếu không thì điều hướng tới trang login
                 if (result.data.error) {
                     setError(result.data.error);
                 } else {
                     navigation.navigate('Login');
                 }
-
-                // navigation.navigate('Login');
             } catch (error) {
                 console.log(error);
             }

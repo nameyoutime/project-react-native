@@ -9,6 +9,7 @@ const LoadingScreenView = ({ navigation }) => {
     const dispatch = useDispatch();
     const fetchUser = async () => {
         try {
+            // lấy user trong local storage của máy nếu user không có thì sẽ điều hướng tới trang login nếu có điều hướng thẳng tới trang home
             const user = await asyncStorage.get('user');
             if (user) { 
                 dispatch(setCurrentUser(user));
@@ -20,6 +21,7 @@ const LoadingScreenView = ({ navigation }) => {
             console.log(error);
         }
     }
+    // Chạy khi bắt đầu vào trang như ngon init, nó sẽ chạy hàm fetchuser
     useEffect(() => {
         fetchUser();
     }, [])

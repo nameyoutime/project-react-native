@@ -7,41 +7,28 @@ import style from '../../styles/searchStyle.js';
 const SearchView = (props) => {
     const focus = useIsFocused();
     const [products, setProducts] = useState([]);
-    const [config, setConfig] = useState({
-        limit: 10,
-        skip: 0,
-        sort: 'newest',
-        category: 'all'
-    })
     useEffect(() => {
         if (focus && products.length === 0) {
-            console.log('SearchView');
             fetchProducts();
         } else {
             setProducts([]);
         }
     }, [focus]);
     const fetchProducts = async () => {
-        // console.log(props.route.params.keyWord)
         let res = await productApi.search(props.route.params.keyWord);
         setProducts(res.data.data);
     }
     const handdleViewDetail = (item) => {
-        // console.log(item)
         props.navigation.navigate('Product detail', { product: item })
-
     }
     return (
         <View style={style.container}>
             <View>
                 <Text style={style.title}>Search results for {props.route.params.keyWord}</Text>
             </View>
-            <ScrollView showsHorizontalScrollIndicator={false}
-            >
-
+            <ScrollView showsHorizontalScrollIndicator={false}>
                 {products.length != 0 ? products.map((product, index) => {
                     return (
-
                         <TouchableOpacity key={product._id} style={style.card} onPress={() => handdleViewDetail(product)} >
                             <View style={{ display: 'flex', flexDirection: 'row' }}>
                                 <Image source={{ uri: product.images[0].url }} style={style.cardImage} />

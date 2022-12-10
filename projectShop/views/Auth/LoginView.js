@@ -11,32 +11,33 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 
 const LoginView = ({ navigation }) => {
     const dispatch = useDispatch();
-
-    const [image, setImage] = useState(null);
+    // Các trường username,password. và error
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
-    // make an login function
+    // khi login chạy là khi bấm vào nút login
     const login = async () => {
-        // user login with userApi
+        
         try {
+            // chạy login api với kết quả trả về
             let result = await userApi.login({
                 userName: userName,
                 password: password
             });
-            // console.log(result.data)
+            // nếu kết quả có error thì sẽ set vào trường error
             if (result.data.error) {
                 setError(result.data.error);
             } else {
+                //nếu không có error thì sẽ bỏ vào storage user và set redux kiểu user
                 asyncStorage.set('user', result.data.user);
                 dispatch(setCurrentUser(result.data.user));
+                // điều hướng tới trang home
                 navigation.navigate('Home');
             }
         } catch (error) {
             console.log(error);
         }
-        // navigation.navigate('HomeLayout');
     }
 
 
